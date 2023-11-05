@@ -63,6 +63,22 @@ class PostView(APIView):
         response = requests.post(URL, data=data, headers=headers)
         res = json.loads(response.text)
 
-        print(res)
-        return res
+        #  데이터 가공
+        result = res["images"][0]["nameCard"]["result"]
+        dataTagList = list(result.keys())
+
+        dataContentDic = {}
+
+        for tag in dataTagList :
+            if (len(result[tag])==1) :
+                dataContentDic[tag] = result[tag][0]['text']
+            else :
+                for content in result[tag] :
+                    if dataContentDic.get(tag) == None :
+                        dataContentDic[tag] = [content['text']]
+                    else :
+                        dataContentDic[tag].append(content['text'])
+
+        print(dataContentDic)
+        return dataContentDic
 
