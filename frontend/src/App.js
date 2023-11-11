@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Login from './components/Login';
+import Signup from './components/Signup';
 import axios from 'axios';
 
 class App extends Component {
@@ -29,14 +31,14 @@ class App extends Component {
     form_data.append('title', this.state.title);
     form_data.append('content', this.state.content);
     let url = 'http://localhost:8000/api/posts/';
-    console.log(form_data);
+    
     axios.post(url, form_data, {
       headers: {
         'content-type': 'multipart/form-data'
       }
     })
       .then(res => {
-        // console.log(res.data);
+        console.log(res.data);
       })
       .catch(err => console.log(err))
   };
@@ -59,6 +61,8 @@ class App extends Component {
           </p>
           <input type="submit"/>
         </form>
+        <Login />
+        <Signup />
       </div>
     );
   }
