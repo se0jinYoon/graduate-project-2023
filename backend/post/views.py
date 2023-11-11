@@ -33,6 +33,7 @@ class PostView(APIView):
             print('error', posts_serializer.errors)
             return Response(posts_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    # 네이버 OCR로 post 보내기
     def run_ocr(self,image_data):
         img = base64.b64encode(image_data.read())
 
@@ -63,7 +64,7 @@ class PostView(APIView):
         response = requests.post(URL, data=data, headers=headers)
         res = json.loads(response.text)
 
-        #  데이터 가공
+        #  데이터에서 텍스트 필드만 가져오기
         result = res["images"][0]["nameCard"]["result"]
         dataTagList = list(result.keys())
 
