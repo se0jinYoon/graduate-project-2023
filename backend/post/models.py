@@ -17,6 +17,7 @@ class CardData(models.Model):
     address = models.CharField(max_length=100, null=True)
     position = models.CharField(max_length=30, null=True)
     tel = models.CharField(max_length=30, null=True)
+    mobile = models.CharField(max_length=30, null=True)
     fax = models.CharField(max_length=30, null=True)
     email = models.CharField(max_length=30, null=True)
     homepage = models.CharField(max_length=30, null=True)
