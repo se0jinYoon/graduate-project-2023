@@ -7,7 +7,7 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = '__all__'
 
-class CardDataSerializer(serializers.ModelSerilalizer):
+class CardDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = CardData
         fields = '__all__'

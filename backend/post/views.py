@@ -1,5 +1,7 @@
 from .serializers import PostSerializer
+from .serializers import CardDataSerializer
 from .models import Post
+from .models import CardData
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
@@ -21,17 +23,21 @@ class PostView(APIView):
 
     def post(self, request, *args, **kwargs):
         posts_serializer = PostSerializer(data=request.data)
+
         if posts_serializer.is_valid():
             posts_serializer.save()
            
             image_data = request.data.get('image')
-            extracted_text = self.run_ocr(image_data)
+            ocr_result = self.run_ocr(image_data)
 
-            posts_serializer.data['extracted_text'] = extracted_text
-            return Response(posts_serializer.data, status=status.HTTP_201_CREATED)
+            card_data_instance, is_created = CardData.objects.get_or_create(**ocr_result)
+            card_data_serializer = CardDataSerializer(card_data_instance)
+            print(card_data_instance)
+
+            return Response(card_data_serializer.data, status=status.HTTP_201_CREATED)
         else:
-            print('error', posts_serializer.errors)
-            return Response(posts_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            print('error', card_data_serializer.errors)
+            return Response(card_data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # 네이버 OCR로 post 보내기
     def run_ocr(self,image_data):
@@ -76,10 +82,9 @@ class PostView(APIView):
             else :
                 for content in result[tag] :
                     if dataContentDic.get(tag) == None :
-                        dataContentDic[tag] = [content['text']]
+                        dataContentDic[tag] = content['text']
                     else :
-                        dataContentDic[tag].append(content['text'])
+                        dataContentDic[tag] = dataContentDic[tag] + ' ' + content['text']
 
-        print(dataContentDic)
+        # print(dataContentDic)
         return dataContentDic
-
