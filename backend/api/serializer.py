@@ -11,7 +11,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-        # Frontend에서 더 필요한 정보가 있다면 여기에 추가적으로 작성하면 됩니다. token["is_superuser"] = user.is_superuser 이런식으로요.
+        # Frontend에서 더 필요한 정보가 있다면 여기에 추가적으로 작성. token["is_superuser"] = user.is_superuser 이런식으로요.
         token['username'] = user.username
         token['email'] = user.email
         return token
