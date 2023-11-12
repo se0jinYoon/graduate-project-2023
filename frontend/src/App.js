@@ -13,12 +13,10 @@ import Navbar from './components/Navbar';
 import PostForm from './views/PostForm';
 
 const App = () => {
-  
-
   return (
     <Router>
-      <AuthProvider>
-        <div className="App">
+      <div className="App">
+        <AuthProvider>
           <Navbar />
           <Routes>
             <Route path="/protected" element={<ProtectedPage />} />
@@ -32,8 +30,8 @@ const App = () => {
             <Route component={Home} path="/" /> */}
           </Routes>
           {/* <Footer /> */}
-        </div>
-      </AuthProvider>
+        </AuthProvider>
+      </div>
     </Router>
   );
 };
