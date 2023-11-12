@@ -23,11 +23,6 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<PostForm />} />
-            {/* <Route path="/post" element={<PostForm />} /> */}
-            {/* <PrivateRoute component={ProtectedPage} path="/protected" exact />
-            <Route component={Login} path="/login" />
-            <Route component={Register} path="/register" />
-            <Route component={Home} path="/" /> */}
           </Routes>
           {/* <Footer /> */}
         </AuthProvider>
