@@ -95,4 +95,11 @@ export const AuthProvider = ({ children }) => {
     }
     setLoading(false);
   }, [authTokens, loading]);
+
+  return(
+    <AuthContext.Provider>
+        {children};
+    </AuthContext.Provider>
+  )
 };
+

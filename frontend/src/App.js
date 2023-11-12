@@ -54,40 +54,50 @@ const App = () => {
 
   return (
     <Router>
-      <div className="App">
-        <AuthProvider>
+      <AuthProvider>
+        <div className="App">
           <Navbar />
           <Routes>
-          <PrivateRoute component={ProtectedPage} path="/protected" exact />
+            <Route path="/protected" element={<ProtectedPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/" element={<Home />} />
+            {/* <PrivateRoute component={ProtectedPage} path="/protected" exact />
             <Route component={Login} path="/login" />
             <Route component={Register} path="/register" />
-            <Route component={Home} path="/" />
+            <Route component={Home} path="/" /> */}
           </Routes>
-        </AuthProvider>
 
-
-        {/* card POST */}
-        <form onSubmit={handleSubmit}>
-          <p>
-            <input type="text" placeholder="Title" id="title" value={formData.title} onChange={handleChange} required />
-          </p>
-          <p>
-            <input
-              type="text"
-              placeholder="Content"
-              id="content"
-              value={formData.content}
-              onChange={handleChange}
-              required
-            />
-          </p>
-          <p>
-            <input type="file" id="image" accept="image/png, image/jpeg" onChange={handleImageChange} required />
-          </p>
-          <input type="submit" />
-        </form>
-        {/* <Footer /> */}
-      </div>
+          {/* card POST */}
+          <form onSubmit={handleSubmit}>
+            <p>
+              <input
+                type="text"
+                placeholder="Title"
+                id="title"
+                value={formData.title}
+                onChange={handleChange}
+                required
+              />
+            </p>
+            <p>
+              <input
+                type="text"
+                placeholder="Content"
+                id="content"
+                value={formData.content}
+                onChange={handleChange}
+                required
+              />
+            </p>
+            <p>
+              <input type="file" id="image" accept="image/png, image/jpeg" onChange={handleImageChange} required />
+            </p>
+            <input type="submit" />
+          </form>
+          {/* <Footer /> */}
+        </div>
+      </AuthProvider>
     </Router>
   );
 };
