@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import jwt_decode from 'jwt-decode';
+import {jwtDecode} from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext(); // Context 생성
@@ -12,9 +12,9 @@ export const AuthProvider = ({ children }) => {
     localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null
   );
 
-  // localStorage에 authTokens이 있을 경우 jwt_decode로 authTokens를 decode해서 user 정보에 넣는다.
+  // localStorage에 authTokens이 있을 경우 jwtDecode로 authTokens를 decode해서 user 정보에 넣는다.
   const [user, setUser] = useState(() =>
-    localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null
+    localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null
   );
 
   const [loading, setLoading] = useState(true);
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
     // 로그인에 성공했을 경우 홈으로 이동
     if (response.status === 200) {
       setAuthTokens(data);
-      setUser(jwt_decode(data.access)); 
+      setUser(jwtDecode(data.access)); 
       localStorage.setItem('authTokens', JSON.stringify(data));
       navigate('/');
     } else {
@@ -91,7 +91,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (authTokens) {
-      setUser(jwt_decode(authTokens.access));
+      setUser(jwtDecode(authTokens.access));
     }
     setLoading(false);
   }, [authTokens, loading]);

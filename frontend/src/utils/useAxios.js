@@ -3,7 +3,7 @@
 // axios의 interceptors 사용하기
 
 import axios from 'axios';
-import jwt_decode from 'jwt-decode';
+import {jwtDecode} from "jwt-decode";
 import dayjs from 'dayjs';
 import { useContext } from 'react';
 import AuthContext from '../context/AuthContext';
@@ -19,7 +19,7 @@ const useAxios = () => {
   }); // 중요! Bearer 인증 방식을 알려주기 위해 'Bearer Token'형식으로 보내줘야함
 
   axiosInstance.interceptors.request.use(async (req) => {
-    const user = jwt_decode(authTokens.access); // decode해서 만료날짜 알기
+    const user = jwtDecode(authTokens.access); // decode해서 만료날짜 알기
     const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1; // 토큰만료 상태 체크
 
     if (!isExpired) return req; // 만료 안되면 access토큰 사용
@@ -31,7 +31,7 @@ const useAxios = () => {
     localStorage.setItem('authTokens', JSON.stringify(response.data));
 
     setAuthTokens(response.data);
-    setUser(jwt_decode(response.data.access));
+    setUser(jwtDecode(response.data.access));
 
     req.headers.Authorization = `Bearer ${response.data.access}`;
     return req;
@@ -39,3 +39,5 @@ const useAxios = () => {
 
   return axiosInstance;
 };
+
+export default useAxios;

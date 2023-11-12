@@ -1,71 +1,95 @@
-import React, { Component } from 'react';
-import Login from './components/Login';
-import Signup from './components/Signup';
+import React, { useState } from 'react';
 import axios from 'axios';
+import { BrowserRouter as Router, Routes, Route, Switch } from 'react-router-dom';
 
-class App extends Component {
+import PrivateRoute from './utils/PrivateRoute';
+import { AuthProvider } from './context/AuthContext';
+import Home from './views/HomePage';
+import Login from './views/LoginPage';
+import Register from './views/RegisterPage';
+import ProtectedPage from './views/ProtectedPage';
+import Footer from './components/Footer';
+import Navbar from './components/Navbar';
 
-  state = {
+const App = () => {
+  const [formData, setFormData] = useState({
     title: '',
     content: '',
-    image: null
+    image: null,
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
   };
 
-  handleChange = (e) => {
-    this.setState({
-      [e.target.id]: e.target.value
-    })
+  const handleImageChange = (e) => {
+    setFormData({
+      ...formData,
+      image: e.target.files[0],
+    });
   };
 
-  handleImageChange = (e) => {
-    this.setState({
-      image: e.target.files[0]
-    })
-  };
-
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(this.state);
     let form_data = new FormData();
-    form_data.append('image', this.state.image, this.state.image.name);
-    form_data.append('title', this.state.title);
-    form_data.append('content', this.state.content);
+    form_data.append('image', formData.image, formData.image.name);
+    form_data.append('title', formData.title);
+    form_data.append('content', formData.content);
     let url = 'http://localhost:8000/api/posts/';
-    
-    axios.post(url, form_data, {
-      headers: {
-        'content-type': 'multipart/form-data'
-      }
-    })
-      .then(res => {
+
+    axios
+      .post(url, form_data, {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      })
+      .then((res) => {
         console.log(res.data);
       })
-      .catch(err => console.log(err))
+      .catch((err) => console.log(err));
   };
 
-  render() {
-    return (
+  return (
+    <Router>
       <div className="App">
-        <form onSubmit={this.handleSubmit}>
-          <p>
-            <input type="text" placeholder='Title' id='title' value={this.state.title} onChange={this.handleChange} required/>
-          </p>
-          <p>
-            <input type="text" placeholder='Content' id='content' value={this.state.content} onChange={this.handleChange} required/>
+        <AuthProvider>
+          <Navbar />
+          <Routes>
+          <PrivateRoute component={ProtectedPage} path="/protected" exact />
+            <Route component={Login} path="/login" />
+            <Route component={Register} path="/register" />
+            <Route component={Home} path="/" />
+          </Routes>
+        </AuthProvider>
 
+
+        {/* card POST */}
+        <form onSubmit={handleSubmit}>
+          <p>
+            <input type="text" placeholder="Title" id="title" value={formData.title} onChange={handleChange} required />
           </p>
           <p>
-            <input type="file"
-                   id="image"
-                   accept="image/png, image/jpeg"  onChange={this.handleImageChange} required/>
+            <input
+              type="text"
+              placeholder="Content"
+              id="content"
+              value={formData.content}
+              onChange={handleChange}
+              required
+            />
           </p>
-          <input type="submit"/>
+          <p>
+            <input type="file" id="image" accept="image/png, image/jpeg" onChange={handleImageChange} required />
+          </p>
+          <input type="submit" />
         </form>
-        <Login />
-        <Signup />
+        {/* <Footer /> */}
       </div>
-    );
-  }
-}
+    </Router>
+  );
+};
 
 export default App;
