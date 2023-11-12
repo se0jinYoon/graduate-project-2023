@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route, Switch } from 'react-router-dom';
+import styled from 'styled-components';
 
 import PrivateRoute from './utils/PrivateRoute';
 import { AuthProvider } from './context/AuthContext';
@@ -15,7 +16,7 @@ import PostForm from './views/PostForm';
 const App = () => {
   return (
     <Router>
-      <div className="App">
+      <Div className="App">
         <AuthProvider>
           <Navbar />
           <Routes>
@@ -26,9 +27,16 @@ const App = () => {
           </Routes>
           {/* <Footer /> */}
         </AuthProvider>
-      </div>
+      </Div>
     </Router>
   );
 };
 
 export default App;
+
+const Div = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  
+`

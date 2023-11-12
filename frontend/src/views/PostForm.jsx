@@ -28,7 +28,7 @@ function PostForm() {
     form_data.append('image', formData.image, formData.image.name);
     form_data.append('title', formData.title);
     form_data.append('content', formData.content);
-    let url = 'http://localhost:8000/api/posts/';
+    let url = 'http://localhost:8000/post/posts/';
 
     axios
       .post(url, form_data, {

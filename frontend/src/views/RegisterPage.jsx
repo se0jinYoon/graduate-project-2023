@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import styled from 'styled-components';
 
 function Register() {
   const [username, setUsername] = useState("");
@@ -14,11 +15,11 @@ function Register() {
 
   return (
     <section>
-      <form onSubmit={handleSubmit}>
-        <h1>Register</h1>
+      <Form onSubmit={handleSubmit}>
+        <h1>회원 가입</h1>
         <hr />
         <div>
-          <label htmlFor="username">Username</label>
+          <Label htmlFor="username">아이디</Label>
           <input
             type="text"
             id="username"
@@ -28,7 +29,7 @@ function Register() {
           />
         </div>
         <div>
-          <label htmlFor="password">Password</label>
+          <Label htmlFor="password">비밀번호</Label>
           <input
             type="password"
             id="password"
@@ -38,7 +39,7 @@ function Register() {
           />
         </div>
         <div>
-          <label htmlFor="confirm-password">Confirm Password</label>
+          <Label htmlFor="confirm-password">비밀번호 확인</Label>
           <input
             type="password"
             id="confirm-password"
@@ -46,12 +47,22 @@ function Register() {
             placeholder="Confirm Password"
             required
           />
-          <p>{password2 !== password ? "Passwords do not match" : ""}</p>
+          <p>{password2 !== password ? "비밀번호가 일치하지 않습니다" : ""}</p>
         </div>
-        <button>Register</button>
-      </form>
+        <button type="submit">가입</button>
+      </Form>
     </section>
   );
 }
 
 export default Register;
+
+const Label = styled.label`
+    margin: 0 10px;
+`
+
+const Form = styled.form `
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+`
