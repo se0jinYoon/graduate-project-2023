@@ -23,12 +23,13 @@ class PostView(APIView):
 
     def post(self, request, *args, **kwargs):
         posts_serializer = PostSerializer(data=request.data)
-
+        print(request.data)
         if posts_serializer.is_valid():
             posts_serializer.save()
-           
+            
             image_data = request.data.get('image')
             ocr_result = self.run_ocr(image_data)
+            ocr_result['user'] = request.data.get('user')
 
             card_data_instance, is_created = CardData.objects.get_or_create(**ocr_result)
             card_data_serializer = CardDataSerializer(card_data_instance)

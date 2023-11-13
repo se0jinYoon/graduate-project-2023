@@ -12,7 +12,7 @@ const Navbar = () => {
         <h1>명함 OCR!</h1>
         <div>
           {user ? (
-            <>
+            <>  
               <Link to="/">Home</Link>
               <Link to="/protected">Protected Page</Link>
               <button onClick={logoutUser}>Logout</button>

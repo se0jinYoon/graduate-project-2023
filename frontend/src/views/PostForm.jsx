@@ -1,7 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 
+import AuthContext from '../context/AuthContext';
+
+// context에서 user ID 받아와서 연결하기!!!!!
+
 function PostForm() {
+    // const { user } = useContext(AuthContext);
+    // console.log(user.username);
+    
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -25,11 +32,13 @@ function PostForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     let form_data = new FormData();
+    // form_data.append('user', user.username);
     form_data.append('image', formData.image, formData.image.name);
     form_data.append('title', formData.title);
     form_data.append('content', formData.content);
     let url = 'http://localhost:8000/post/posts/';
-
+    console.log(form_data);
+    
     axios
       .post(url, form_data, {
         headers: {
