@@ -23,7 +23,7 @@ const App = () => {
             <Route path="/protected" element={<ProtectedPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/" element={<PostForm />} />
+            <Route path="/" element={<PrivateRoute><PostForm /></PrivateRoute> } />
           </Routes>
           {/* <Footer /> */}
         </AuthProvider>
