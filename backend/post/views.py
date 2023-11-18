@@ -2,6 +2,7 @@ from .serializers import PostSerializer
 from .serializers import CardDataSerializer
 from .models import Post
 from .models import CardData
+from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
@@ -22,6 +23,10 @@ class PostView(APIView):
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
+        user_data = json.loads(request.data.get('user'))
+        user_instance = User.objects.get(pk=user_data['user_id'])
+        request.data['user'] = user_instance.id
+        
         posts_serializer = PostSerializer(data=request.data)
         print(request.data)
         if posts_serializer.is_valid():
@@ -29,7 +34,7 @@ class PostView(APIView):
             
             image_data = request.data.get('image')
             ocr_result = self.run_ocr(image_data)
-            ocr_result['user'] = request.data.get('user')
+            ocr_result['user'] = user_instance
 
             card_data_instance, is_created = CardData.objects.get_or_create(**ocr_result)
             card_data_serializer = CardDataSerializer(card_data_instance)
@@ -37,8 +42,7 @@ class PostView(APIView):
 
             return Response(card_data_serializer.data, status=status.HTTP_201_CREATED)
         else:
-            print('error', card_data_serializer.errors)
-            return Response(card_data_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(posts_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # 네이버 OCR로 post 보내기
     def run_ocr(self,image_data):

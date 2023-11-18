@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class Post(models.Model):
     # default는 admin일 수 있도록. admin 인덱스 확인 필
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=User.objects.get(pk=1).id) 
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True) 
     title = models.CharField(max_length=100)
     content = models.TextField()
     image = models.ImageField(upload_to='post_images')
@@ -15,7 +15,7 @@ class Post(models.Model):
     
 class CardData(models.Model):
     # default는 admin일 수 있도록. admin 인덱스 확인 필
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=User.objects.get(pk=1).id) 
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True) 
     name = models.CharField(max_length=30, null=True)
     company = models.CharField(max_length=100, null=True)
     department = models.CharField(max_length=100, null=True)

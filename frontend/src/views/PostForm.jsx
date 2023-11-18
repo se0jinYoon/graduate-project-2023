@@ -6,7 +6,7 @@ import AuthContext from '../context/AuthContext';
 // context에서 user ID 받아와서 연결하기!!!!!
 
 function PostForm() {
-    // const { user } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     // console.log(user.username);
     
   const [formData, setFormData] = useState({
@@ -32,7 +32,7 @@ function PostForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     let form_data = new FormData();
-    // form_data.append('user', user.username);
+    form_data.append('user', JSON.stringify(user));
     form_data.append('image', formData.image, formData.image.name);
     form_data.append('title', formData.title);
     form_data.append('content', formData.content);
