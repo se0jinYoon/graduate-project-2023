@@ -18,9 +18,14 @@ class PostView(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def get(self, request, *args, **kwargs):
-        posts = Post.objects.all()
-        serializer = PostSerializer(posts, many=True)
+        # posts = Post.objects.all()
+        # serializer = PostSerializer(posts, many=True)
+        # return Response(serializer.data)
+        cardDatas = CardData.objects.all()
+        serializer = CardDataSerializer(cardDatas, many=True)
         return Response(serializer.data)
+    
+
 
     def post(self, request, *args, **kwargs):
         user_data = json.loads(request.data.get('user'))
@@ -28,7 +33,6 @@ class PostView(APIView):
         request.data['user'] = user_instance.id
         
         posts_serializer = PostSerializer(data=request.data)
-        print(request.data)
         if posts_serializer.is_valid():
             posts_serializer.save()
             

@@ -3,11 +3,8 @@ import axios from 'axios';
 
 import AuthContext from '../context/AuthContext';
 
-// context에서 user ID 받아와서 연결하기!!!!!
-
 function PostForm() {
     const { user } = useContext(AuthContext);
-    // console.log(user.username);
     
   const [formData, setFormData] = useState({
     title: '',
@@ -29,7 +26,7 @@ function PostForm() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let form_data = new FormData();
     form_data.append('user', JSON.stringify(user));
@@ -39,16 +36,27 @@ function PostForm() {
     let url = 'http://localhost:8000/post/posts/';
     console.log(form_data);
     
-    axios
-      .post(url, form_data, {
+    try{
+      const response = await axios.post(url, form_data, {
         headers: {
           'content-type': 'multipart/form-data',
         },
       })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => console.log(err));
+      console.log(response.data)
+    } catch(error) {
+      console.log(error.message);
+    }
+
+    // axios
+    //   .post(url, form_data, {
+    //     headers: {
+    //       'content-type': 'multipart/form-data',
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log(res.data);
+    //   })
+    //   .catch((err) => console.log(err));
   };
 
   return (
