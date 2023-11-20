@@ -3,15 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import AuthContext from '../context/AuthContext';
+import UserCardDataContext from '../context/UserCardDataContext';
 import CardDataContext from '../context/CardData';
 import SavedCardData from './SavedCardData';
 
 function PostForm() {
   const { user, authTokens } = useContext(AuthContext);
   const { cardData, updateCardData, updateCardDataImg } = useContext(CardDataContext);
+  const { userCardData, updateUserCardData} = useContext(UserCardDataContext);
   // const [cardDataItem, setCardDataItem] = useState({});
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -58,12 +59,13 @@ function PostForm() {
 
   const getCardDataItem = async (e) => {
     e.preventDefault();
-    const userId = cardData.user;
+    const userId = user.user_id;
     let url = `http://localhost:8000/post/posts/user/${userId}`;
     e.preventDefault();
     try {
       const response = await axios.get(url);
-      console.log(response.data);
+      updateUserCardData(response.data);
+      navigate('/savedData')
     } catch (error) {
       console.log(error.message);
     }
