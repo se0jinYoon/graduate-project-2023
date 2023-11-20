@@ -5,6 +5,7 @@ from .models import CardData
 from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework import status
 # Create your views here.
@@ -20,6 +21,10 @@ class PostView(APIView):
     def get(self, request, *args, **kwargs):
         # posts = Post.objects.all()
         # serializer = PostSerializer(posts, many=True)
+        # return Response(serializer.data)
+        # cardDatas = CardData.objects.filter(user=request.user)
+        # print(request.user)
+        # serializer = CardDataSerializer(cardDatas, many=True)
         # return Response(serializer.data)
         cardDatas = CardData.objects.all()
         serializer = CardDataSerializer(cardDatas, many=True)
@@ -97,3 +102,23 @@ class PostView(APIView):
 
         # print(dataContentDic)
         return dataContentDic
+
+# class CardDataDetailView(RetrieveUpdateDestroyAPIView):
+#     queryset = CardData.objects.all()
+#     serializer_class = CardDataSerializer
+
+
+# {
+# address: "서울특별시 강남구 테헤란로 142,12층 (역삼동, 아크플레이스)"
+# company: "(주)비바리퍼블리카"
+# department: "Internal Platform Team"
+# email: "subin.kim@toss.im"
+# fax: null
+# homepage: null
+# id: 1
+# mobile: "010 63151317"
+# name: "김수빈 Subin Kim"
+# position: "Python Developer"
+# tel: null
+# user: 2
+# }
