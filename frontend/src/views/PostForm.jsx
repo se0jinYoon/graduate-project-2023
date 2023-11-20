@@ -56,7 +56,6 @@ function PostForm() {
     }
   };
 
-
   const getCardDataItem = async(e) => {
     e.preventDefault();
     let url = 'http://localhost:8000/post/posts/';

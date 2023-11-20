@@ -19,9 +19,7 @@ class PostView(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def get(self, request, *args, **kwargs):
-        # cardDatas = CardData.objects.all()
-        # serializer = CardDataSerializer(cardDatas, many=True)
-        # return Response(serializer.data)
+        print(request.data)
         pk = kwargs.get('pk')  # URL에서 pk 값을 가져옴
         if pk:
             try:
@@ -121,22 +119,21 @@ class PostView(APIView):
         # print(dataContentDic)
         return dataContentDic
 
-# class CardDataDetailView(RetrieveUpdateDestroyAPIView):
-#     queryset = CardData.objects.all()
-#     serializer_class = CardDataSerializer
+class CardDataView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get(self, request, *args, **kwargs):
+        user_id = self.kwargs.get('user')
+        if user_id:
+            try:
+                card_data = CardData.objects.filter(user=user_id)
+                serializer = CardDataSerializer(card_data, many=True)
+                return Response(serializer.data)
+            except CardData.DoesNotExist:
+                return Response({"detail": "Not Found"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            cardDatas = CardData.objects.all()
+            serializer = CardDataSerializer(cardDatas, many=True)
+            return Response(serializer.data)
 
 
-# {
-# address: "서울특별시 강남구 테헤란로 142,12층 (역삼동, 아크플레이스)"
-# company: "(주)비바리퍼블리카"
-# department: "Internal Platform Team"
-# email: "subin.kim@toss.im"
-# fax: null
-# homepage: null
-# id: 1
-# mobile: "010 63151317"
-# name: "김수빈 Subin Kim"
-# position: "Python Developer"
-# tel: null
-# user: 2
-# }
