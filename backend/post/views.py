@@ -19,18 +19,21 @@ class PostView(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def get(self, request, *args, **kwargs):
-        # posts = Post.objects.all()
-        # serializer = PostSerializer(posts, many=True)
-        # return Response(serializer.data)
-        # cardDatas = CardData.objects.filter(user=request.user)
-        # print(request.user)
+        # cardDatas = CardData.objects.all()
         # serializer = CardDataSerializer(cardDatas, many=True)
         # return Response(serializer.data)
-        cardDatas = CardData.objects.all()
-        serializer = CardDataSerializer(cardDatas, many=True)
-        return Response(serializer.data)
-    
-
+        pk = kwargs.get('pk')  # URL에서 pk 값을 가져옴
+        if pk:
+            try:
+                card_data = CardData.objects.get(pk=pk)
+                serializer = CardDataSerializer(card_data)
+                return Response(serializer.data)
+            except CardData.DoesNotExist:
+                return Response({"detail": "Not Found"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            cardDatas = CardData.objects.all()
+            serializer = CardDataSerializer(cardDatas, many=True)
+            return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
         user_data = json.loads(request.data.get('user'))
@@ -52,7 +55,22 @@ class PostView(APIView):
             return Response(card_data_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(posts_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+    
+    def put(self, request, pk, *args, **kwargs):
+        try:
+            card_data_instance = CardData.objects.get(pk=pk)
+            print(request.data)
+        except CardData.DoesNotExist:
+            return Response({"deail": "Not Found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = CardDataSerializer(card_data_instance, data=request.data)
+        
+        if serializer.is_valid() :
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
     # 네이버 OCR로 post 보내기
     def run_ocr(self,image_data):
         img = base64.b64encode(image_data.read())

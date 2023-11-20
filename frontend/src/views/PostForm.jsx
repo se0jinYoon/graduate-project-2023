@@ -4,10 +4,11 @@ import axios from 'axios';
 
 import AuthContext from '../context/AuthContext';
 import CardDataContext from '../context/CardData';
+import SavedCardData from './SavedCardData';
 
 function PostForm() {
   const { user, authTokens } = useContext(AuthContext);
-  const { cardData, updateCardData } = useContext(CardDataContext);
+  const { cardData, updateCardData, updateCardDataImg } = useContext(CardDataContext);
   // const [cardDataItem, setCardDataItem] = useState({});
   const navigate = useNavigate();
 
@@ -29,6 +30,7 @@ function PostForm() {
       ...formData,
       image: e.target.files[0],
     });
+    // updateCardData(e.target.files[0])
   };
 
   const handleSubmit = async (e) => {
@@ -53,9 +55,10 @@ function PostForm() {
       console.log(error.message);
     }
   };
-  console.log(cardData);
 
-  const getCardDataItem = async (e) => {
+
+  const getCardDataItem = async(e) => {
+    e.preventDefault();
     let url = 'http://localhost:8000/post/posts/';
     e.preventDefault();
     try {
