@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect} from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -56,16 +56,13 @@ function PostForm() {
     }
   };
 
-  const getCardDataItem = async(e) => {
+  const getCardDataItem = async (e) => {
     e.preventDefault();
-    let url = 'http://localhost:8000/post/posts/';
+    const userId = cardData.user;
+    let url = `http://localhost:8000/post/posts/user/${userId}`;
     e.preventDefault();
     try {
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${authTokens}`,
-        },
-      });
+      const response = await axios.get(url);
       console.log(response.data);
     } catch (error) {
       console.log(error.message);
