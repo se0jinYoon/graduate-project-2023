@@ -10,6 +10,7 @@ const Input = (props) => {
         name={props.label}
         placeholder={props.placeholder}
         content={props.content}
+        onChange={props.onChange}
       ></UserInput>
     </InputDiv>
   );

@@ -12,8 +12,8 @@ const LoginPage = () => {
   const { loginUser } = useContext(AuthContext);
   const handleSubmit = (e) => {
     e.preventDefault();
-    const username = e.target.username.value;
-    const password = e.target.password.value;
+    const username = e.target.아이디.value;
+    const password = e.target.비밀번호.value;
     username.length > 0 && loginUser(username, password);
   };
   const onClickSignup = () => {
@@ -22,16 +22,17 @@ const LoginPage = () => {
 
   return (
     <ContentWrapper header="로그인" onSubmit={handleSubmit}>
-      <Input type="text" label="username" placeholder="아이디를 입력하세요" />
-      <Input type="password" label="password" placeholder="비밀번호를 입력하세요" />
+      <Input type="text" label="아이디" placeholder="아이디를 입력하세요" />
+      <Input type="password" label="비밀번호" placeholder="비밀번호를 입력하세요" />
 
-      <BtnWrapper></BtnWrapper>
+      <BtnWrapper>
       <LoginBtn $login={true} type="submit">
         로그인
       </LoginBtn>
       <LoginBtn $login={false} type="button" onClick={onClickSignup}>
         회원가입
       </LoginBtn>
+      </BtnWrapper>
     </ContentWrapper>
   );
 };
