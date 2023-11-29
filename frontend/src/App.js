@@ -1,65 +1,70 @@
-import React, { useState } from 'react';
-import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route, Switch } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 
 import PrivateRoute from './utils/PrivateRoute';
 import { AuthProvider } from './context/AuthContext';
 import { CardDataProvider } from './context/CardData';
 import { UserCardDataProvider } from './context/UserCardDataContext';
-import Home from './views/HomePage';
-import Login from './views/LoginPage';
-import Register from './views/RegisterPage';
-import ProtectedPage from './views/ProtectedPage';
-import Footer from './components/Footer';
-import Navbar from './components/Navbar';
-import PostForm from './views/PostForm';
-import ChangeUpdateForm from './views/ChangeUpdateForm';
-import SavedCardData from './views/SavedCardData';
+
+import GlobalStyle from './styles/GlobalStyle';
+import theme from './styles/theme';
+
+import Home from './pages/HomePage';
+import Login from './pages/LoginPage';
+import Register from './pages/RegisterPage';
+import ProtectedPage from './pages/ProtectedPage';
+import Footer from './common/Footer';
+import Navbar from './common/Navbar';
+import PostForm from './pages/PostForm';
+import ChangeUpdateForm from './pages/ChangeUpdateForm';
+import SavedCardData from './pages/SavedCardData';
 
 const App = () => {
   return (
-    <Router>
-      <Div className="App">
-        <AuthProvider>
-          <CardDataProvider>
-            <UserCardDataProvider>
-              <Navbar />
-              <Routes>
-                <Route path="/protected" element={<ProtectedPage />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route
-                  path="/"
-                  element={
-                    <PrivateRoute>
-                      <PostForm />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  path="/updateForm"
-                  element={
-                    <PrivateRoute>
-                      <ChangeUpdateForm />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  path="/savedData"
-                  element={
-                    <PrivateRoute>
-                      <SavedCardData />
-                    </PrivateRoute>
-                  }
-                />
-              </Routes>
-              {/* <Footer /> */}
-            </UserCardDataProvider>
-          </CardDataProvider>
-        </AuthProvider>
-      </Div>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <Router>
+        <Div className="App">
+          <AuthProvider>
+            <CardDataProvider>
+              <UserCardDataProvider>
+                <Navbar />
+                <Routes>
+                  <Route path="/protected" element={<ProtectedPage />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route
+                    path="/"
+                    element={
+                      <PrivateRoute>
+                        <PostForm />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="/updateForm"
+                    element={
+                      <PrivateRoute>
+                        <ChangeUpdateForm />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="/savedData"
+                    element={
+                      <PrivateRoute>
+                        <SavedCardData />
+                      </PrivateRoute>
+                    }
+                  />
+                </Routes>
+                {/* <Footer /> */}
+              </UserCardDataProvider>
+            </CardDataProvider>
+          </AuthProvider>
+        </Div>
+      </Router>
+    </ThemeProvider>
   );
 };
 

@@ -25,6 +25,3 @@ export const CardDataProvider = ({ children }) => {
   );
 };
 
-// export const useCardDataContext = () => {
-//   return useContext(CardDataContext);
-// };

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import UserInfo from "../components/UserInfo";
+import UserInfo from "../common/UserInfo";
 import AuthContext from "../context/AuthContext";
 
 const Home = () => {
