@@ -32,7 +32,6 @@ const App = () => {
                 <Routes>
                   <Route path="/protected" element={<ProtectedPage />} />
                   <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
                   <Route
                     path="/"
                     element={
@@ -74,4 +73,7 @@ const Div = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  border: 1px solid black;
+  width: 100vw;
+  height: 100vh;
 `;

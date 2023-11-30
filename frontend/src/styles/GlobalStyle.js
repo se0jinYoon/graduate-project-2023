@@ -16,7 +16,8 @@ const GlobalStyle = createGlobalStyle`
       -ms-user-select: auto;
       user-select: auto;
     }
-    input:focus {
+    input:focus,
+    textarea:focus {
       outline: none;
     }
 

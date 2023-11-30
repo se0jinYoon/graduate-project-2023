@@ -19,8 +19,9 @@ const Wrapper = styled.form`
   align-items: center;
   gap: 2rem;
 
-  width: 34rem;
-  padding: 3rem 2rem;
+  width: 100%;
+  padding: 0 1rem;
+  margin-top: 3rem;
 
   border: 1px solid gray
   border-radius: 1rem;
@@ -28,5 +29,5 @@ const Wrapper = styled.form`
 `
 
 const Header = styled.header`
-    font-size: 2rem;
+    font-size: 1.5rem;
 `

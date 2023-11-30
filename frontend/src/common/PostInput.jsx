@@ -1,23 +1,23 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
 
-const Input = (props) => {
+const PostInput = (props) => {
   return (
     <InputDiv>
       <InputLabel>{props.label}</InputLabel>
       <UserInput
+        className={props.className}
         type={props.type}
         name={props.label}
         placeholder={props.placeholder}
         content={props.content}
         onChange={props.onChange}
-        className={props.className}
-      ></UserInput>
+      />
     </InputDiv>
   );
 };
 
-export default Input;
+export default PostInput;
 
 const InputDiv = styled.div`
   display: flex;
@@ -25,7 +25,6 @@ const InputDiv = styled.div`
   justify-content: space-between;
   gap: 1rem 0;
   align-items: center;
-
   width: 100%;
 `;
 
@@ -34,10 +33,10 @@ const InputLabel = styled.label`
   font-size: 15px;
 `;
 
-const UserInput = styled.input`
+const UserInput = styled.textarea`
   display: flex;
   align-items: center;
-  width: 75%;
+  width: 80%;
   height: 2.5rem;
   border: 1px solid ${({ theme }) => theme.colors.gray};
   padding: 10px;
@@ -52,6 +51,6 @@ const UserInput = styled.input`
   }
 
   &.large {
-    width: 80%;
+    height: 10rem;
   }
 `;
