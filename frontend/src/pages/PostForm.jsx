@@ -15,9 +15,18 @@ import Input from '../common/Input';
 import PostInput from '../common/PostInput';
 
 function PostForm() {
-  const { user, authTokens } = useContext(AuthContext);
-  const { cardData, updateCardData, updateCardDataImg } = useContext(CardDataContext);
-  const { userCardData, updateUserCardData } = useContext(UserCardDataContext);
+  const { user } = useContext(AuthContext);
+  const { updateCardData } = useContext(CardDataContext);
+  const { updateUserCardData } = useContext(UserCardDataContext);
+  // post Form 관련 state
+  const [formData, setFormData] = useState({
+    title: '',
+    content: '',
+    image: null,
+    cateogry: '',
+  });
+
+  // 이미지 업로드 관련 state
   const [imageSelected, setImageSelected] = useState('선택된 파일 없음');
   const [formIsValid, setFormIsValid] = useState(false);
 
@@ -26,12 +35,7 @@ function PostForm() {
   const [currentValue, setCurrentValue] = useState('');
   const ref = useRef();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    title: '',
-    content: '',
-    image: null,
-    cateogry: '',
-  });
+
 
   // 파일 선택 여부 렌더링
   useEffect(() => {
@@ -65,7 +69,7 @@ function PostForm() {
     setCurrentValue(innerText);
   };
 
-  // 카테고리 닫히게
+  // 외부 클릭시 카테고리 닫히게
   const handleOutside = () => {
     setShowOptions(false);
   }

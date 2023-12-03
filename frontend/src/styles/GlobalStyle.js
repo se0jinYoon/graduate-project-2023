@@ -37,10 +37,10 @@ const GlobalStyle = createGlobalStyle`
 
     body {
         font-family: 'Pretendard-Regular';
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
+        max-width: 26.87rem;
+        width: 100%;
         height: 100vh;
+        margin: 0 auto;
     }
 `;
 
