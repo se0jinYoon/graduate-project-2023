@@ -18,6 +18,7 @@ function PostForm() {
   const { cardData, updateCardData, updateCardDataImg } = useContext(CardDataContext);
   const { userCardData, updateUserCardData } = useContext(UserCardDataContext);
   const [imageSelected, setImageSelected] = useState('선택된 파일 없음');
+  const [formIsValid, setFormIsValid] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: '',
@@ -25,6 +26,7 @@ function PostForm() {
     image: null,
   });
 
+  // 파일 선택 여부 렌더링
   useEffect(() => {
     if (formData.image) {
       setImageSelected('선택 완료!');
@@ -33,6 +35,16 @@ function PostForm() {
     }
   }, [formData.image]);
 
+  // 입력 form valid에 따른 명함 저장 활성화
+  useEffect(() => {
+    if (formData.title && formData.content && formData.image) {
+      setFormIsValid(true);
+    } else {
+      setFormIsValid(false);
+    }
+  }, [formData.title, formData.content, formData.image]);
+
+  // title, content 입력
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -40,6 +52,7 @@ function PostForm() {
     });
   };
 
+  // 이미지 선택
   const handleImageChange = (e) => {
     setFormData({
       ...formData,
@@ -47,6 +60,7 @@ function PostForm() {
     });
   };
 
+  // 백에 폼 전송 POST
   const handleSubmit = async (e) => {
     console.log(formData);
     e.preventDefault();
@@ -71,6 +85,7 @@ function PostForm() {
     }
   };
 
+  // 카드 데이터 가져오기 GET
   const getCardDataItem = async (e) => {
     e.preventDefault();
     const userId = user.user_id;
@@ -115,7 +130,7 @@ function PostForm() {
           <FileSelected>{imageSelected}</FileSelected>
         </InputWrapper>
 
-        <SubmitCustomBtn type="submit" value="명함 저장하기" />
+        <SubmitCustomBtn type="submit" value="명함 저장하기" $formValid={formIsValid} />
       </SubmitWrapper>
 
       <BtnWrapper>
@@ -157,7 +172,7 @@ const InputWrapper = styled.div`
 
 const FileSelected = styled.p`
   font-size: 13px;
-  color: #A2A2A1;
+  color: #a2a2a1;
 `;
 
 const CustomInput = styled.input`
@@ -202,6 +217,14 @@ const SubmitCustomBtn = styled.input`
   font-size: 15px;
   box-shadow: 1px 2px 3px 0px #f2f2f2;
   outline: none;
+
+  ${({ $formValid }) =>
+    !$formValid &&
+    `
+    cursor: not-allowed;
+    color: #a2a2a1;
+    opacity: 0.5;
+  `}
 
   &:hover {
     cursor: pointer;
