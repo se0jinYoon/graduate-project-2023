@@ -12,6 +12,7 @@ const PostInput = (props) => {
         placeholder={props.placeholder}
         content={props.content}
         onChange={props.onChange}
+        id={props.id}
       />
     </InputDiv>
   );

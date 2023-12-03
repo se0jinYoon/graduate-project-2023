@@ -12,6 +12,7 @@ const Input = (props) => {
         content={props.content}
         onChange={props.onChange}
         className={props.className}
+        id = {props.id}
       ></UserInput>
     </InputDiv>
   );
