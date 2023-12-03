@@ -47,6 +47,10 @@ class PostView(APIView):
             ocr_result = self.run_ocr(image_data)
             ocr_result['user'] = user_instance
 
+            # post 필드에 Post 인스턴스 설정
+            ocr_result['content'] = posts_serializer.instance.content
+            ocr_result['category'] = posts_serializer.instance.category
+
             card_data_instance, is_created = CardData.objects.get_or_create(**ocr_result)
             card_data_serializer = CardDataSerializer(card_data_instance)
             print(card_data_instance)
@@ -60,7 +64,7 @@ class PostView(APIView):
             card_data_instance = CardData.objects.get(pk=pk)
             print(request.data)
         except CardData.DoesNotExist:
-            return Response({"deail": "Not Found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "Not Found"}, status=status.HTTP_404_NOT_FOUND)
         
         serializer = CardDataSerializer(card_data_instance, data=request.data)
         

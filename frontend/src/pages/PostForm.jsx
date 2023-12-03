@@ -79,7 +79,7 @@ function PostForm() {
         },
       });
       updateCardData(response.data);
-      // console.log(response.data)
+      console.log(response.data)
       navigate('/updateForm');
     } catch (error) {
       console.log(error.message);

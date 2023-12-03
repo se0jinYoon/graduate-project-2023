@@ -53,12 +53,12 @@ const ChangeUpdateForm = (props) => {
 
   return (
     <ContentWrapper header={'명함 데이터 수정'} onSubmit={updateCardForm}>
-      {Object.entries(cardData).map(([key, value]) => {
+      {Object.entries(cardData).map(([key, value],idx) => {
         if (key === 'id' || key === 'user') {
           return null;
         } else {
           return (
-            <InputDiv>
+            <InputDiv key={`${value}and${idx}`}>
               <InputLabel>{key}</InputLabel>
               <UserInput name={key} defaultValue={value !== null ? value : '-'} onChange={onChangeInput} />
             </InputDiv>

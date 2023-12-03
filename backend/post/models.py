@@ -26,3 +26,5 @@ class CardData(models.Model):
     fax = models.CharField(max_length=30, null=True)
     email = models.CharField(max_length=30, null=True)
     homepage = models.CharField(max_length=30, null=True)
+    content = models.TextField(null=True)
+    category = models.CharField(max_length=100, default='기타')
