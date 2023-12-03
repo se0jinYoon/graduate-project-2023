@@ -39,6 +39,7 @@ class PostView(APIView):
         request.data['user'] = user_instance.id
         
         posts_serializer = PostSerializer(data=request.data)
+        print(request.data)
         if posts_serializer.is_valid():
             posts_serializer.save()
             

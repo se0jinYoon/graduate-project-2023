@@ -24,6 +24,7 @@ function PostForm() {
     title: '',
     content: '',
     image: null,
+    cateogry: '',
   });
 
   // 파일 선택 여부 렌더링
@@ -62,13 +63,13 @@ function PostForm() {
 
   // 백에 폼 전송 POST
   const handleSubmit = async (e) => {
-    console.log(formData);
     e.preventDefault();
     let form_data = new FormData();
     form_data.append('user', JSON.stringify(user));
     form_data.append('image', formData.image, formData.image.name);
     form_data.append('title', formData.title);
     form_data.append('content', formData.content);
+    form_data.append('category', formData.category);
     let url = 'http://localhost:8000/post/posts/';
 
     try {
@@ -122,6 +123,13 @@ function PostForm() {
         className="large"
         required
       />
+
+      <select id="category" value={formData.category} onChange={handleChange} required>
+        <option value="">카테고리 선택</option>
+        <option value="취업">취업</option>
+        <option value="지인">지인</option>
+        <option value="기타">기타</option>
+      </select>
 
       <SubmitWrapper>
         <InputWrapper>
