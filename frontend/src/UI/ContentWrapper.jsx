@@ -21,7 +21,6 @@ const Wrapper = styled.form`
 
   width: 100%;
   padding: 0 1rem;
-  margin-top: 1.5rem;
 
   border-radius: 1rem;
   background-color: white

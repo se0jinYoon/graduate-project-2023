@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -7,6 +7,7 @@ import AuthContext from '../context/AuthContext';
 import UserCardDataContext from '../context/UserCardDataContext';
 import CardDataContext from '../context/CardData';
 import SavedCardData from './SavedCardData';
+import useDropDown from '../hooks/useDropDown';
 
 import ContentWrapper from '../UI/ContentWrapper';
 import BtnWrapper from '../common/BtnWrapper';
@@ -19,6 +20,11 @@ function PostForm() {
   const { userCardData, updateUserCardData } = useContext(UserCardDataContext);
   const [imageSelected, setImageSelected] = useState('선택된 파일 없음');
   const [formIsValid, setFormIsValid] = useState(false);
+
+  // 카테고리 관련 state
+  const [isShowOptions, setShowOptions] = useState(false);
+  const [currentValue, setCurrentValue] = useState('');
+  const ref = useRef();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: '',
@@ -53,6 +59,18 @@ function PostForm() {
     });
   };
 
+  // 카테고리 선택
+  const handleOnChangeSelectValue = (e) => {
+    const { innerText } = e.target;
+    setCurrentValue(innerText);
+  };
+
+  // 카테고리 닫히게
+  const handleOutside = () => {
+    setShowOptions(false);
+  }
+  useDropDown(ref, handleOutside);
+
   // 이미지 선택
   const handleImageChange = (e) => {
     setFormData({
@@ -79,7 +97,7 @@ function PostForm() {
         },
       });
       updateCardData(response.data);
-      console.log(response.data)
+      console.log(response.data);
       navigate('/updateForm');
     } catch (error) {
       console.log(error.message);
@@ -124,12 +142,15 @@ function PostForm() {
         required
       />
 
-      <select id="category" value={formData.category} onChange={handleChange} required>
-        <option value="">카테고리 선택</option>
-        <option value="취업">취업</option>
-        <option value="지인">지인</option>
-        <option value="기타">기타</option>
-      </select>
+      <SelectBox onClick={() => setShowOptions((prev) => !prev)} onChange={handleChange} ref={ref} required>
+        <Label>{currentValue ? currentValue : '무엇과 관련되었나요?'}</Label>
+        <SelectOptions $show={isShowOptions}>
+          <Option onClick={handleOnChangeSelectValue}>취업</Option>
+          <Option onClick={handleOnChangeSelectValue}>지인</Option>
+          <Option onClick={handleOnChangeSelectValue}>여가</Option>
+          <Option onClick={handleOnChangeSelectValue}>기타</Option>
+        </SelectOptions>
+      </SelectBox>
 
       <SubmitWrapper>
         <InputWrapper>
@@ -237,5 +258,52 @@ const SubmitCustomBtn = styled.input`
   &:hover {
     cursor: pointer;
     background-color: #fcf6f5;
+  }
+`;
+
+// 카테고리 박스
+const SelectBox = styled.div`
+  position: relative;
+  width: 200px;
+  padding: 8px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  align-self: center;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  &::before {
+    content: '⌵';
+    position: absolute;
+    top: 1px;
+    right: 8px;
+    color: #49c181;
+    font-size: 20px;
+  }
+`;
+const Label = styled.label`
+  font-size: 14px;
+  margin-left: 4px;
+  text-align: center;
+`;
+const SelectOptions = styled.ul`
+  position: absolute;
+  top: 2.1rem;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  z-index: 1;
+  max-height: ${({ $show }) => ($show ? 'none' : '0')};
+  padding: 0;
+  border: ${({ $show }) => ($show ? '1px solid black' : '0')};
+  border-radius: 8px;
+  background-color: #fff;
+  color: black;
+`;
+const Option = styled.li`
+  font-size: 14px;
+  padding: 0.4rem 0.5rem;
+  transition: background-color 0.2s ease-in;
+  &:hover {
+    background-color: #8AAAE5;
   }
 `;
