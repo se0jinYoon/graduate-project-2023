@@ -23,7 +23,7 @@ function PostForm() {
     title: '',
     content: '',
     image: null,
-    cateogry: '',
+    category: '',
   });
 
   // 이미지 업로드 관련 state
@@ -36,7 +36,6 @@ function PostForm() {
   const ref = useRef();
   const navigate = useNavigate();
 
-
   // 파일 선택 여부 렌더링
   useEffect(() => {
     if (formData.image) {
@@ -48,12 +47,13 @@ function PostForm() {
 
   // 입력 form valid에 따른 명함 저장 활성화
   useEffect(() => {
-    if (formData.title && formData.content && formData.image) {
+    if (formData.title && formData.content && formData.image && formData.category) {
       setFormIsValid(true);
     } else {
       setFormIsValid(false);
     }
-  }, [formData.title, formData.content, formData.image]);
+  }, [formData.title, formData.content, formData.image, formData.category]);
+  console.log(formData);
 
   // title, content 입력
   const handleChange = (e) => {
@@ -67,12 +67,16 @@ function PostForm() {
   const handleOnChangeSelectValue = (e) => {
     const { innerText } = e.target;
     setCurrentValue(innerText);
+    setFormData({
+      ...formData,
+      category: innerText,
+    });
   };
 
   // 외부 클릭시 카테고리 닫히게
   const handleOutside = () => {
     setShowOptions(false);
-  }
+  };
   useDropDown(ref, handleOutside);
 
   // 이미지 선택
@@ -146,22 +150,23 @@ function PostForm() {
         required
       />
 
-      <SelectBox onClick={() => setShowOptions((prev) => !prev)} onChange={handleChange} ref={ref} required>
-        <Label>{currentValue ? currentValue : '무엇과 관련되었나요?'}</Label>
-        <SelectOptions $show={isShowOptions}>
-          <Option onClick={handleOnChangeSelectValue}>취업</Option>
-          <Option onClick={handleOnChangeSelectValue}>지인</Option>
-          <Option onClick={handleOnChangeSelectValue}>여가</Option>
-          <Option onClick={handleOnChangeSelectValue}>기타</Option>
-        </SelectOptions>
-      </SelectBox>
-
       <SubmitWrapper>
-        <InputWrapper>
-          <CustomInput type="file" id="image" accept="image/png, image/jpeg" onChange={handleImageChange} required />
-          <UploadBtn htmlFor="image">📁 파일 선택</UploadBtn>
-          <FileSelected>{imageSelected}</FileSelected>
-        </InputWrapper>
+        <SelectWrapper>
+          <SelectBox onClick={() => setShowOptions((prev) => !prev)} ref={ref} required>
+            <Label>{currentValue ? currentValue : '무엇과 관련되었나요?'}</Label>
+            <SelectOptions $show={isShowOptions}>
+              <Option onClick={handleOnChangeSelectValue}>취업</Option>
+              <Option onClick={handleOnChangeSelectValue}>지인</Option>
+              <Option onClick={handleOnChangeSelectValue}>여가</Option>
+              <Option onClick={handleOnChangeSelectValue}>기타</Option>
+            </SelectOptions>
+          </SelectBox>
+          <InputWrapper>
+            <CustomInput type="file" id="image" accept="image/png, image/jpeg" onChange={handleImageChange} required />
+            <UploadBtn htmlFor="image">📁 파일 선택</UploadBtn>
+            <FileSelected>{imageSelected}</FileSelected>
+          </InputWrapper>
+        </SelectWrapper>
 
         <SubmitCustomBtn type="submit" value="명함 저장하기" $formValid={formIsValid} />
       </SubmitWrapper>
@@ -197,13 +202,22 @@ const SubmitWrapper = styled.div`
   gap: 1rem;
 `;
 
+const SelectWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  gap: 1.5rem;
+`;
+
 const InputWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.3rem;
 `;
 
 const FileSelected = styled.p`
+  margin-top: 0.3rem;
   font-size: 13px;
   color: #a2a2a1;
 `;
@@ -243,7 +257,6 @@ const UploadBtn = styled.label`
 const SubmitCustomBtn = styled.input`
   border: 1px solid #d9e1e8;
   background-color: #fff;
-  color: #2b90d9;
   border-radius: 2rem;
   padding: 8px 17px 8px 17px;
   font-weight: 500;
@@ -252,29 +265,31 @@ const SubmitCustomBtn = styled.input`
   outline: none;
 
   ${({ $formValid }) =>
-    !$formValid &&
-    `
+    $formValid
+      ? `cursor: pointer;
+      color: #2b90d9;`
+      : `
     cursor: not-allowed;
     color: #a2a2a1;
     opacity: 0.5;
   `}
-
-  &:hover {
-    cursor: pointer;
-    background-color: #fcf6f5;
-  }
 `;
 
 // 카테고리 박스
 const SelectBox = styled.div`
   position: relative;
-  width: 200px;
+  width: 10.5rem;
   padding: 8px;
   border-radius: 12px;
   background-color: #ffffff;
   align-self: center;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border: 1px solid #d9e1e8;
   cursor: pointer;
+  margin-bottom: 1rem;
+  &:hover {
+    cursor: pointer;
+    background-color: #fcf6f5;
+  }
   &::before {
     content: '⌵';
     position: absolute;
@@ -298,16 +313,16 @@ const SelectOptions = styled.ul`
   z-index: 1;
   max-height: ${({ $show }) => ($show ? 'none' : '0')};
   padding: 0;
-  border: ${({ $show }) => ($show ? '1px solid black' : '0')};
+  border: ${({ $show }) => ($show ? '1px solid #d9e1e8;' : '0')};
   border-radius: 8px;
   background-color: #fff;
   color: black;
 `;
 const Option = styled.li`
   font-size: 14px;
-  padding: 0.4rem 0.5rem;
+  padding: 0.6rem 0.5rem;
   transition: background-color 0.2s ease-in;
   &:hover {
-    background-color: #8AAAE5;
+    background-color: #8aaae5;
   }
 `;
