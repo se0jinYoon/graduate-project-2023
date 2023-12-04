@@ -40,6 +40,7 @@ const UserInput = styled.input`
   align-items: center;
   width: 75%;
   height: 2.5rem;
+  border-radius: 12px;
   border: 1px solid ${({ theme }) => theme.colors.gray};
   padding: 10px;
   font-size: 15px;
@@ -49,8 +50,10 @@ const UserInput = styled.input`
   }
 
   &:focus {
-    border: 1px solid ${({ theme }) => theme.colors.black};
+    border: 1px solid #2b90d9;
+    background-color: #fcf6f5;
   }
+
 
   &.large {
     width: 80%;

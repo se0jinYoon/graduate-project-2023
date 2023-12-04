@@ -1,17 +1,19 @@
 // components/Navbar.js
-import { useContext, useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import AuthContext from '../context/AuthContext';
+import { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
+
+import AuthContext from '../context/AuthContext';
+import UserCardDataContext from '../context/UserCardDataContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { CloseIconImg } from '../assets/img';
-import useDropDown from '../hooks/useDropDown';
 
 const Navbar = () => {
-  const ref = useRef();
   const { user, logoutUser } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleOpen = () => {
     setIsOpen(true);
@@ -21,16 +23,35 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
+  const { updateUserCardData } = useContext(UserCardDataContext);
+
+  // 카드 데이터 가져오기 GET
+  const getCardDataItem = async (e) => {
+    e.preventDefault();
+    setIsOpen(false);
+    const userId = user.user_id;
+    let url = `http://localhost:8000/post/posts/user/${userId}`;
+    e.preventDefault();
+    try {
+      const response = await axios.get(url);
+      updateUserCardData(response.data);
+      navigate('/savedData');
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <NavContainer>
-      <ModalBg $isOpen={isOpen} onClick={toggleClose}/>
+      <ModalBg $isOpen={isOpen} onClick={toggleClose} />
       <Nav>
         <List onClick={toggleOpen}>
           <FontAwesomeIcon icon={faBars} style={{ width: '1.5rem', height: '1.5rem', cursor: 'pointer' }} />
         </List>
         <List>
-          <h1>킵카드</h1>
+        <Link to="/" onClick={toggleClose}>
+          킵카드
+        </Link>
         </List>
         <List>{user ? <Link onClick={logoutUser}>로그아웃</Link> : <Link to="/login">로그인</Link>}</List>
       </Nav>
@@ -43,9 +64,9 @@ const Navbar = () => {
             </Link>
           </List>
           <List>
-            <Link to="/savedData" onClick={toggleClose}>
+            <GetCardBtn type="button" onClick={getCardDataItem}>
               📇 &nbsp;&nbsp;나의 명함들
-            </Link>
+            </GetCardBtn>
           </List>
           <List>
             <Link to="/login" onClick={toggleClose}>
@@ -112,8 +133,10 @@ const List = styled.li`
   }
 `;
 
-const LinkItem = styled(Link)`
-  margin: 5px;
+const GetCardBtn = styled.button`
+  color: #3a4854;
+  font-weight: 700;
+  font-size: 16px;
 `;
 
 const ModalBg = styled.div`

@@ -111,21 +111,6 @@ function PostForm() {
     }
   };
 
-  // 카드 데이터 가져오기 GET
-  const getCardDataItem = async (e) => {
-    e.preventDefault();
-    const userId = user.user_id;
-    let url = `http://localhost:8000/post/posts/user/${userId}`;
-    e.preventDefault();
-    try {
-      const response = await axios.get(url);
-      updateUserCardData(response.data);
-      navigate('/savedData');
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
   return (
     <ContentWrapper onSubmit={handleSubmit} header="명함 저장하기">
       <Input
@@ -169,12 +154,6 @@ function PostForm() {
 
         <SubmitCustomBtn type="submit" value="명함 저장하기" $formValid={formIsValid} />
       </SubmitWrapper>
-
-      <BtnWrapper>
-        <GetBtn type="button" onClick={getCardDataItem}>
-          내 명함들 가져오기
-        </GetBtn>
-      </BtnWrapper>
     </ContentWrapper>
   );
 }

@@ -68,6 +68,19 @@ const ChangeUpdateForm = (props) => {
     }
   };
 
+  function formatPhoneNumber(phoneNumber) {
+    // 정규표현식을 사용하여 숫자만 추출
+    const numbersOnly = phoneNumber.replace(/\D/g, '');
+
+    // +82로 시작하는 경우 0으로 바꾸기
+    const cleanedNumber = numbersOnly.startsWith('82') ? '0' + numbersOnly.slice(2) : numbersOnly;
+
+    // 핸드폰 번호 양식에 맞게 포맷팅
+    const formattedNumber = cleanedNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+
+    return formattedNumber;
+  }
+
   const onChangeInput = (e) => {
     const inputKey = e.target.name;
     setInputValue((prev) => {
@@ -82,13 +95,29 @@ const ChangeUpdateForm = (props) => {
     <ChangeFormWrapper header={'명함 정보 수정하기'} onSubmit={updateCardForm}>
       {Object.entries(cardData).map(([key, value], idx) => {
         let newKey = changeName(key);
+        let newValue = '';
+        if (key === 'mobile') {
+          newValue = formatPhoneNumber(value);
+        }
         if (key === 'id' || key === 'user' || key === 'content' || key === 'category') {
           return null;
         } else {
           return (
             <InputDiv key={`${value}and${idx}`}>
               <InputLabel>{newKey}</InputLabel>
-              <UserInput name={key} defaultValue={value !== null ? value : '-'} onChange={onChangeInput} />
+              {value == null ? (
+                <UserInput name={key} defaultValue='-' onChange={onChangeInput} />
+              ) : value.toString().length < 30 ? (
+                <UserInput name={key} defaultValue={key === 'mobile' ? newValue : value} onChange={onChangeInput} />
+              ) : (
+                <UserTextarea name={key} defaultValue={key === 'mobile' ? newValue : value} onChange={onChangeInput} />
+              )}
+              {/* <UserInput
+                name={key}
+                defaultValue={value !== null ? (key === 'mobile' ? newValue : value) : '-'}
+                onChange={onChangeInput}
+                $newHeight = {value !== null ? value.toString().length : 0}
+              /> */}
             </InputDiv>
           );
         }
@@ -126,6 +155,30 @@ const UserInput = styled.input`
   font-size: 14px;
   border: 1px solid #d9e1e8;
   color: #222426;
+  overflow-wrap: break-word;
+
+  &::placeholder {
+    font-size: 15px;
+  }
+
+  &:focus {
+    border: 1px solid #2b90d9;
+    background-color: #fcf6f5;
+  }
+`;
+
+const UserTextarea = styled.textarea`
+  display: flex;
+  line-height: 1.5;
+  align-items: center;
+  border-radius: 12px;
+  width: 75%;
+  height: 4.6rem;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #d9e1e8;
+  color: #222426;
+  overflow-wrap: break-word;
 
   &::placeholder {
     font-size: 15px;
@@ -139,8 +192,8 @@ const UserInput = styled.input`
 
 const UpdateBtn = styled.button`
   border: 1px solid #d9e1e8;
-  background-color: #fcf6f5;
-  color:  #8AAAE5;
+  background-color: #e1f1ff;
+  color: #3a4854;
   border-radius: 2rem;
   padding: 0.5rem 2rem 0.5rem 2rem;
   font-weight: bold;
@@ -148,5 +201,5 @@ const UpdateBtn = styled.button`
   box-shadow: 1px 2px 3px 0px #f2f2f2;
   outline: none;
   margin-top: 1.5rem;
-  font-family: ${({theme}) => theme.font.fontFamily};
+  font-family: ${({ theme }) => theme.font.fontFamily};
 `;

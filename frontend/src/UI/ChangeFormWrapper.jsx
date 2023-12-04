@@ -17,15 +17,15 @@ const Wrapper = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1.3rem;
-
-  margin-top: 3rem;
+  gap: 1rem;
   width: 100%;
-  padding: 1.5rem 1rem;
+  height: 100%;
+  padding: 2rem 1rem;
 
   background-color: white;
 `;
 
 const Header = styled.header`
   font-size: 1.5rem;
+  margin-bottom: 2rem;
 `;

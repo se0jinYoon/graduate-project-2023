@@ -27,6 +27,7 @@ const InputDiv = styled.div`
   gap: 1rem 0;
   align-items: center;
   width: 100%;
+  margin-bottom: 1rem;
 `;
 
 const InputLabel = styled.label`
@@ -39,6 +40,7 @@ const UserInput = styled.textarea`
   align-items: center;
   width: 80%;
   height: 2.5rem;
+  border-radius: 12px;
   border: 1px solid ${({ theme }) => theme.colors.gray};
   padding: 10px;
   font-size: 15px;
@@ -48,7 +50,8 @@ const UserInput = styled.textarea`
   }
 
   &:focus {
-    border: 1px solid ${({ theme }) => theme.colors.black};
+    border: 1px solid #2b90d9;
+    background-color: #fcf6f5;
   }
 
   &.large {

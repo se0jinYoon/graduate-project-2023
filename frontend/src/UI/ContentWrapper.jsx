@@ -18,13 +18,13 @@ const Wrapper = styled.form`
   justify-content: center;
   align-items: center;
   gap: 2rem;
-  margin-top: 4rem;
   width: 100%;
-  padding: 1.5rem 1rem;
-
+  height: 100%;
+  padding: 0 1rem 25% 1rem;
   background-color: white;
 `;
 
 const Header = styled.header`
   font-size: 1.5rem;
+  margin-bottom: 2rem;
 `;
