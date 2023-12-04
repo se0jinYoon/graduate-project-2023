@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import AuthContext from '../context/AuthContext';
 import CardDataContext from '../context/CardData';
-import ContentWrapper from '../UI/ContentWrapper';
+import ChangeFormWrapper from '../UI/ChangeFormWrapper';
 
 // 서버에서 저장된 값 (GET /posts/<post_id>/)받아오기 -> input의 value로 자동 보여지게
 // 이미지 위에 띄워주기
@@ -41,6 +41,33 @@ const ChangeUpdateForm = (props) => {
     }
   };
 
+  const changeName = (name) => {
+    switch (name) {
+      case 'name':
+        return '이름';
+      case 'company':
+        return '회사';
+      case 'department':
+        return '부서';
+      case 'address':
+        return '주소';
+      case 'position':
+        return '직무';
+      case 'tel':
+        return '전화번호';
+      case 'mobile':
+        return '핸드폰 번호';
+      case 'fax':
+        return '팩스';
+      case 'email':
+        return '이메일';
+      case 'homepage':
+        return '홈페이지';
+      default:
+        return;
+    }
+  };
+
   const onChangeInput = (e) => {
     const inputKey = e.target.name;
     setInputValue((prev) => {
@@ -52,22 +79,22 @@ const ChangeUpdateForm = (props) => {
   };
 
   return (
-    <ContentWrapper header={'명함 데이터 수정'} onSubmit={updateCardForm}>
-      {Object.entries(cardData).map(([key, value],idx) => {
-        if (key === 'id' || key === 'user') {
+    <ChangeFormWrapper header={'명함 정보 수정하기'} onSubmit={updateCardForm}>
+      {Object.entries(cardData).map(([key, value], idx) => {
+        let newKey = changeName(key);
+        if (key === 'id' || key === 'user' || key === 'content' || key === 'category') {
           return null;
         } else {
           return (
             <InputDiv key={`${value}and${idx}`}>
-              <InputLabel>{key}</InputLabel>
+              <InputLabel>{newKey}</InputLabel>
               <UserInput name={key} defaultValue={value !== null ? value : '-'} onChange={onChangeInput} />
             </InputDiv>
           );
         }
       })}
-      <button type='submit'>수정하기</button>
-      <button>저장된 명함 보기</button>
-    </ContentWrapper>
+      <UpdateBtn type="submit">수정하기</UpdateBtn>
+    </ChangeFormWrapper>
   );
 };
 
@@ -76,9 +103,10 @@ export default ChangeUpdateForm;
 const InputDiv = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  gap: 0.5rem 0;
+  justify-content: space-around;
+  gap: 0.1rem 0;
   align-items: center;
+  font-weight: 500;
 
   width: 100%;
 `;
@@ -91,17 +119,34 @@ const InputLabel = styled.label`
 const UserInput = styled.input`
   display: flex;
   align-items: center;
+  border-radius: 12px;
   width: 75%;
-  height: 20px;
-  border: 1px solid gray;
+  height: 2.3rem;
   padding: 10px;
-  font-size: 15px;
+  font-size: 14px;
+  border: 1px solid #d9e1e8;
+  color: #222426;
 
   &::placeholder {
     font-size: 15px;
   }
 
   &:focus {
-    border: 1px solid black;
+    border: 1px solid #2b90d9;
+    background-color: #fcf6f5;
   }
+`;
+
+const UpdateBtn = styled.button`
+  border: 1px solid #d9e1e8;
+  background-color: #fcf6f5;
+  color:  #8AAAE5;
+  border-radius: 2rem;
+  padding: 0.5rem 2rem 0.5rem 2rem;
+  font-weight: bold;
+  font-size: 17px;
+  box-shadow: 1px 2px 3px 0px #f2f2f2;
+  outline: none;
+  margin-top: 1.5rem;
+  font-family: ${({theme}) => theme.font.fontFamily};
 `;

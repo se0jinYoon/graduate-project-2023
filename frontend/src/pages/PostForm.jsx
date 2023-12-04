@@ -53,7 +53,6 @@ function PostForm() {
       setFormIsValid(false);
     }
   }, [formData.title, formData.content, formData.image, formData.category]);
-  console.log(formData);
 
   // title, content 입력
   const handleChange = (e) => {

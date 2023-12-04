@@ -76,7 +76,5 @@ const Div = styled.div`
   align-items: center;
   width: 100%;
   height: 100vh;
-  gap: 2rem;
-  border: 1px solid black;
-
+  background-color: #F7F7F9;
 `;

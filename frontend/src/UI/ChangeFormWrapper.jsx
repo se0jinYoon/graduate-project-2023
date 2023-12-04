@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ContentWrapper = (props, { children }) => {
+const ChangeFormWrapper = (props, { children }) => {
   return (
     <Wrapper onSubmit={props.onSubmit}>
       <Header>{props.header}</Header>
@@ -10,19 +10,19 @@ const ContentWrapper = (props, { children }) => {
   );
 };
 
-export default ContentWrapper;
+export default ChangeFormWrapper;
 
 const Wrapper = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 1.3rem;
 
+  margin-top: 1rem;
   width: 100%;
-  padding: 0 1rem;
+  padding: 1.5rem 1rem;
 
-  border-radius: 1rem;
   background-color: white;
 `;
 
