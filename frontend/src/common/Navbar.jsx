@@ -1,5 +1,5 @@
 // components/Navbar.js
-import { useContext, useState, useRef } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import styled from 'styled-components';
@@ -21,19 +21,10 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
-  const toggleOpendClose = () => {
-    if (isOpen) {
-      setIsOpen(false);
-    } else {
-      setIsOpen(true);
-    }
-  };
-  console.log(isOpen);
-
-  useDropDown(ref, toggleOpendClose);
 
   return (
     <NavContainer>
+      <ModalBg $isOpen={isOpen} onClick={toggleClose}/>
       <Nav>
         <List onClick={toggleOpen}>
           <FontAwesomeIcon icon={faBars} style={{ width: '1.5rem', height: '1.5rem', cursor: 'pointer' }} />
@@ -41,35 +32,30 @@ const Navbar = () => {
         <List>
           <h1>킵카드</h1>
         </List>
-        <List>
-          {user ? (
-            <>
-              {/* <Link to="/">명함 저장하기</Link>
-            <Link to="/savedData">나의 명함들</Link> */}
-              <button onClick={logoutUser}>로그아웃</button>
-            </>
-          ) : (
-            <>
-              <LinkItem to="/login">로그인</LinkItem>
-              {/* <LinkItem to="/register">회원가입</LinkItem> 마이페이지로 변경 */}
-            </>
-          )}
-        </List>
+        <List>{user ? <Link onClick={logoutUser}>로그아웃</Link> : <Link to="/login">로그인</Link>}</List>
       </Nav>
-      <SideBarWrap id="sidebar" ref={ref} className={isOpen ? 'open' : ''}>
+      <SideBarWrap id="sidebar" className={isOpen ? 'open' : ''}>
         <CloseImg src={CloseIconImg} alt="닫기" onClick={toggleClose} onKeyDown={toggleClose} />
         <Menu>
           <List>
-            <Link to="/">명함 저장하기</Link>
+            <Link to="/" onClick={toggleClose}>
+              📁 &nbsp;&nbsp;명함 저장하기
+            </Link>
           </List>
           <List>
-            <Link to="/savedData">나의 명함들</Link>
+            <Link to="/savedData" onClick={toggleClose}>
+              📇 &nbsp;&nbsp;나의 명함들
+            </Link>
           </List>
           <List>
-            <LinkItem to="/login">로그인</LinkItem>
+            <Link to="/login" onClick={toggleClose}>
+              👩🏻‍💻 &nbsp;&nbsp;로그인
+            </Link>
           </List>
           <List>
-            <LinkItem to="/register">회원가입</LinkItem>
+            <Link to="/register" onClick={toggleClose}>
+              👨‍👨‍👧‍👧 &nbsp;&nbsp;회원가입
+            </Link>
           </List>
         </Menu>
       </SideBarWrap>
@@ -80,8 +66,7 @@ const Navbar = () => {
 export default Navbar;
 
 const NavContainer = styled.div`
-  position: absolute;
-  top: 0;
+  position: relative;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -97,32 +82,64 @@ const Nav = styled.ul`
   width: 100%;
 `;
 
-const Menu = styled.ul``;
+const Menu = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+  gap: 2rem;
+  justify-content: flex-start;
+  padding: 0 0.5rem;
+`;
 
 const CloseImg = styled.img`
   width: 1rem;
   height: 1rem;
+  position: absolute;
+  right: 13px;
+  top: 10px;
+  pointer: cursor;
 `;
 
-const List = styled.li``;
+const List = styled.li`
+  color: #3a4854;
+  font-weight: 600;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: #b3d7f4;
+  }
+`;
 
 const LinkItem = styled(Link)`
   margin: 5px;
 `;
 
+const ModalBg = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
+  background-color: rgba(76, 76, 76, 0.7);
+  z-index: 2;
+`;
+
 const SideBarWrap = styled.div`
   z-index: 5;
-  padding: 12px;
-  border-radius: 15px 0 0 15px;
-  background-color: #e7e4e1;
-  height: 100%;
-  width: 55%;
+  padding: 5rem 12px;
+  background-color: #e1f1ff;
+  height: 100vh;
+  width: 14rem;
   left: -55%;
   top: 0;
   position: fixed;
-  transition: 0.5s ease;
+  transition: 0.7s ease;
+
   &.open {
+    position: absolute;
     left: 0;
-    transition: 0.5s ease;
   }
 `;
