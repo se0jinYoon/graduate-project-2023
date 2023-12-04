@@ -97,7 +97,11 @@ const ChangeUpdateForm = (props) => {
         let newKey = changeName(key);
         let newValue = '';
         if (key === 'mobile') {
-          newValue = formatPhoneNumber(value);
+          if (value !== null) {
+            newValue = formatPhoneNumber(value);
+          } else {
+            value = '-';
+          }
         }
         if (key === 'id' || key === 'user' || key === 'content' || key === 'category') {
           return null;
@@ -106,7 +110,7 @@ const ChangeUpdateForm = (props) => {
             <InputDiv key={`${value}and${idx}`}>
               <InputLabel>{newKey}</InputLabel>
               {value == null ? (
-                <UserInput name={key} defaultValue='-' onChange={onChangeInput} />
+                <UserInput name={key} defaultValue="-" onChange={onChangeInput} />
               ) : value.toString().length < 30 ? (
                 <UserInput name={key} defaultValue={key === 'mobile' ? newValue : value} onChange={onChangeInput} />
               ) : (

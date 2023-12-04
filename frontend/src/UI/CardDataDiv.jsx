@@ -12,14 +12,13 @@ const CardDataDiv = (props) => {
 export default CardDataDiv;
 
 const Wrapper = styled.article`
+  width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-direction: row;
   gap: 1px;
-  width: 30rem;
-  height:2.5rem;
-  border-bottom: 1px solid grey;
+  height: 2.5rem;
 `;
 
 const CardDataKey = styled.div`
@@ -29,5 +28,5 @@ const CardDataKey = styled.div`
 `;
 
 const CardDataVal = styled.div`
-  width: 70%
+  width: 70%;
 `;

@@ -241,6 +241,7 @@ const SubmitCustomBtn = styled.input`
   font-size: 15px;
   box-shadow: 1px 2px 3px 0px #f2f2f2;
   outline: none;
+  margin-bottom: 3rem;
 
   ${({ $formValid }) =>
     $formValid
