@@ -70,6 +70,7 @@ const App = () => {
 export default App;
 
 const Div = styled.div`
+position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

@@ -18,11 +18,10 @@ const Wrapper = styled.form`
   justify-content: center;
   align-items: center;
   gap: 2rem;
-
+  margin-top: 4rem;
   width: 100%;
-  padding: 0 1rem;
+  padding: 1.5rem 1rem;
 
-  border-radius: 1rem;
   background-color: white;
 `;
 

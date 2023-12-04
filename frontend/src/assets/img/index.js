@@ -1,0 +1,1 @@
+export {default as CloseIconImg} from './closeIcon.png'
