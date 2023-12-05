@@ -9,11 +9,9 @@ import { UserCardDataProvider } from './context/UserCardDataContext';
 import GlobalStyle from './styles/GlobalStyle';
 import theme from './styles/theme';
 
-import Home from './pages/HomePage';
 import Login from './pages/LoginPage';
 import Register from './pages/RegisterPage';
 import ProtectedPage from './pages/ProtectedPage';
-import Footer from './common/Footer';
 import Navbar from './common/Navbar';
 import PostForm from './pages/PostForm';
 import ChangeUpdateForm from './pages/ChangeUpdateForm';
@@ -58,7 +56,6 @@ const App = () => {
                     }
                   />
                 </Routes>
-                {/* <Footer /> */}
               </UserCardDataProvider>
             </CardDataProvider>
           </AuthProvider>

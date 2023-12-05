@@ -10,11 +10,9 @@ import UserCardDataContext from '../context/UserCardDataContext';
 const SavedCardData = () => {
   const { userCardData } = useContext(UserCardDataContext);
   const [sortData, setSortData] = useState([]);
-  const [memoClicked, setMemoClicked] = useState(false);
   const [memoStates, setMemoStates] = useState(new Array(sortData.length).fill(false));
 
   const handleMemoClick = (idx) => {
-    // memoStates 배열에서 해당 인덱스의 값을 토글합니다.
     const newMemoStates = [...memoStates];
     newMemoStates[idx] = !newMemoStates[idx];
     setMemoStates(newMemoStates);
@@ -55,15 +53,16 @@ const SavedCardData = () => {
     e.preventDefault();
     const category = e.target.name;
     if (category === '최신순') {
-      setSortData([...userCardData].reverse());
-    }
-    if (category === '오래된 순') {
+      const filteredData = [...userCardData].reverse();
+      setSortData(filteredData);
+    } else if (category === '오래된 순') {
       setSortData([...userCardData]);
     } else {
-      const filteredData = userCardData.filter((card) => card.category === category);
+      const filteredData = [...userCardData].filter((card) => card.category === category);
       setSortData(filteredData);
     }
   };
+  console.log([...userCardData].reverse());
 
   return (
     <SavedWrapper>
@@ -86,7 +85,6 @@ const SavedCardData = () => {
       </CardCategoryWrapper>
       <CardDataWrapper>
         {sortData.map((item, idx) => {
-          console.log(item);
           return (
             <Wrapper key={idx}>
               <MemoBg $isClicked={memoStates[idx]}>
@@ -191,6 +189,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  gap: 1px;
 `;
 
 const MemoEl = styled.div`

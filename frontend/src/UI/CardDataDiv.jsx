@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const CardDataDiv = (props) => {
   return (
-    <Wrapper>
+    <Wrapper $lineLength={props.value.toString().length}>
       <CardDataKey>{props.keyName}</CardDataKey>
       <CardDataVal>{props.value}</CardDataVal>
     </Wrapper>
@@ -17,17 +17,19 @@ const Wrapper = styled.article`
   justify-content: flex-start;
   align-items: center;
   flex-direction: row;
+  height: ${({ $lineLength }) => ($lineLength < 20 ? '2.5rem' : $lineLength > 40 ? '3.5rem' : '3rem')};
   gap: 1px;
-  height: 2.5rem;
 `;
 
 const CardDataKey = styled.div`
-  width: 20%;
-  border-right: 0.5px solid grey;
-  margin-right: 1rem;
+  width: 25%;
+  padding-right: 0.3rem;
   font-size: 15px;
 `;
 
 const CardDataVal = styled.div`
   width: 70%;
+  line-height: 1.5;
+  padding-left: 1rem;
+  border-left: 0.5px solid grey;
 `;

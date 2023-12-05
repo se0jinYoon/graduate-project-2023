@@ -158,11 +158,11 @@ const ModalBg = styled.div`
   height: 100vh;
   display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
   background-color: rgba(76, 76, 76, 0.7);
-  z-index: 2;
+  z-index: 5;
 `;
 
 const SideBarWrap = styled.div`
-  z-index: 5;
+  z-index: 7;
   padding: 5rem 12px;
   background-color: #e1f1ff;
   height: 100vh;
