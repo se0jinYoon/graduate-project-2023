@@ -10,11 +10,19 @@ import UserCardDataContext from '../context/UserCardDataContext';
 const SavedCardData = () => {
   const { userCardData } = useContext(UserCardDataContext);
   const [sortData, setSortData] = useState([]);
+  const [memoClicked, setMemoClicked] = useState(false);
+  const [memoStates, setMemoStates] = useState(new Array(sortData.length).fill(false));
+
+  const handleMemoClick = (idx) => {
+    // memoStates 배열에서 해당 인덱스의 값을 토글합니다.
+    const newMemoStates = [...memoStates];
+    newMemoStates[idx] = !newMemoStates[idx];
+    setMemoStates(newMemoStates);
+  };
 
   useEffect(() => {
     setSortData([...userCardData].reverse());
   }, [userCardData]);
-  console.log(sortData);
 
   const changeName = (name) => {
     switch (name) {
@@ -78,8 +86,15 @@ const SavedCardData = () => {
       </CardCategoryWrapper>
       <CardDataWrapper>
         {sortData.map((item, idx) => {
+          console.log(item);
           return (
             <Wrapper key={idx}>
+              <MemoBg $isClicked={memoStates[idx]}>
+                <MemoEl>
+                  <MemoVal>{item.content}</MemoVal>
+                </MemoEl>
+              </MemoBg>
+              <MemoBtn onClick={() => handleMemoClick(idx)}>{memoStates[idx] ? '메모 닫기' : '메모 보기'}</MemoBtn>
               {Object.entries(item).map(([key, value]) => {
                 let newKey = changeName(key);
                 if (key === 'id' || key === 'user' || key === 'content' || key === 'category') {
@@ -105,11 +120,19 @@ const SavedWrapper = styled.div`
 const CardCategoryWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
+  gap: 0.5rem;
 `;
 
 const CategoryBtn = styled.button`
-  padding: 1rem 1.5rem;
+  padding: 0.3rem 0.7rem;
+  background-color: #fcf6f5;
+  border-radius: 1rem;
+  border: 1px solid #8aaae5;
+font-weight: 600;
+  &:hover {
+    background-color: #8aaae5;
+  }
 `;
 
 const CardDataWrapper = styled.section`
@@ -120,11 +143,42 @@ const CardDataWrapper = styled.section`
   align-items: center;
   overflow-y: auto;
   overflow-x: hidden;
-  margin: 1rem 1.5rem;
+  margin: 1rem 0 1rem 1.5rem;
   gap: 1rem;
 `;
 
+const MemoBtn = styled.div`
+  border: 1px solid #d9e1e8;
+  border-radius: 2rem;
+  background-color: #e1f1ff;
+  color: #2b90d9;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 3;
+`;
+
+const MemoBg = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  border-radius: 2rem;
+  display: ${({ $isClicked }) => ($isClicked ? 'flex' : 'none')};
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: rgba(76, 76, 76, 0.7);
+`;
+
 const Wrapper = styled.div`
+  position: relative;
   margin-right: 0.5rem;
   width: 98%;
   border: 1px solid #d9e1e8;
@@ -136,4 +190,24 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+`;
+
+const MemoEl = styled.div`
+  width: 70%;
+  height: 50%;
+  background-color: #fcf6f5;
+  border-radius: 2rem;
+  border: 1px solid #2b90d9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+`;
+
+const MemoVal = styled.div`
+  width: 100%;
+  font-size: 14px;
+  line-height: 2;
 `;

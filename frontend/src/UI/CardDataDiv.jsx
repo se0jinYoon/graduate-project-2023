@@ -25,6 +25,7 @@ const CardDataKey = styled.div`
   width: 20%;
   border-right: 0.5px solid grey;
   margin-right: 1rem;
+  font-size: 15px;
 `;
 
 const CardDataVal = styled.div`

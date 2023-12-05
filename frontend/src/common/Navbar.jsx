@@ -45,15 +45,18 @@ const Navbar = () => {
     <NavContainer>
       <ModalBg $isOpen={isOpen} onClick={toggleClose} />
       <Nav>
-        <List onClick={toggleOpen}>
-          <FontAwesomeIcon icon={faBars} style={{ width: '1.5rem', height: '1.5rem', cursor: 'pointer' }} />
-        </List>
-        <List>
-        <Link to="/" onClick={toggleClose}>
-          킵카드
-        </Link>
-        </List>
-        <List>{user ? <Link onClick={logoutUser}>로그아웃</Link> : <Link to="/login">로그인</Link>}</List>
+        <NoHoverList onClick={toggleOpen}>
+          <FontAwesomeIcon
+            icon={faBars}
+            style={{ width: '1.5rem', height: '1.5rem', cursor: 'pointer', marginRight: '0.5rem' }}
+          />
+        </NoHoverList>
+        <NoHoverList>
+          <Link to="/" onClick={toggleClose}>
+            📇 킵카드
+          </Link>
+        </NoHoverList>
+        <NoHoverList>{user ? <Link onClick={logoutUser}>로그아웃</Link> : <Link to="/login">로그인</Link>}</NoHoverList>
       </Nav>
       <SideBarWrap id="sidebar" className={isOpen ? 'open' : ''}>
         <CloseImg src={CloseIconImg} alt="닫기" onClick={toggleClose} onKeyDown={toggleClose} />
@@ -131,6 +134,14 @@ const List = styled.li`
   &:hover {
     background-color: #b3d7f4;
   }
+`;
+
+const NoHoverList = styled.li`
+  color: #3a4854;
+  font-weight: 600;
+  height: 2rem;
+  display: flex;
+  align-items: center;
 `;
 
 const GetCardBtn = styled.button`
