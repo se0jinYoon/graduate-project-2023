@@ -27,4 +27,5 @@ const Wrapper = styled.form`
 const Header = styled.header`
   font-size: 1.5rem;
   margin-bottom: 2rem;
+  font-weight: 500;
 `;

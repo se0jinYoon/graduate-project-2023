@@ -32,6 +32,7 @@ const App = () => {
                 <Routes>
                   <Route path="/protected" element={<ProtectedPage />} />
                   <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
                   <Route
                     path="/"
                     element={
@@ -70,12 +71,12 @@ const App = () => {
 export default App;
 
 const Div = styled.div`
-position: relative;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   width: 100%;
   height: 100vh;
-  background-color: #F7F7F9;
+  background-color: #f7f7f9;
 `;

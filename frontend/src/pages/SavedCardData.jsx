@@ -122,6 +122,7 @@ const CardCategoryWrapper = styled.div`
   align-items: center;
   justify-content: space-evenly;
   gap: 0.5rem;
+  margin-top: 1rem;
 `;
 
 const CategoryBtn = styled.button`
@@ -129,9 +130,9 @@ const CategoryBtn = styled.button`
   background-color: #fcf6f5;
   border-radius: 1rem;
   border: 1px solid #8aaae5;
-font-weight: 600;
+  font-weight: 600;
   &:hover {
-    background-color: #8aaae5;
+    background-color: #e1f1ff;
   }
 `;
 

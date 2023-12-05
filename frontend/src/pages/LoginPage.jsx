@@ -5,7 +5,6 @@ import AuthContext from '../context/AuthContext';
 
 import ContentWrapper from '../UI/ContentWrapper';
 import Input from '../common/Input';
-import BtnWrapper from '../common/BtnWrapper';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -21,17 +20,15 @@ const LoginPage = () => {
   };
 
   return (
-    <ContentWrapper header="로그인" onSubmit={handleSubmit}>
+    <ContentWrapper header="👩🏻‍💻 &nbsp;로그인" onSubmit={handleSubmit}>
       <Input type="text" label="아이디" placeholder="아이디를 입력하세요" />
       <Input type="password" label="비밀번호" placeholder="비밀번호를 입력하세요" />
 
       <BtnWrapper>
-      <LoginBtn $login={true} type="submit">
-        로그인
-      </LoginBtn>
-      <LoginBtn $login={false} type="button" onClick={onClickSignup}>
-        회원가입
-      </LoginBtn>
+        <SubmitCustomBtn type="submit">로그인</SubmitCustomBtn>
+        <SubmitCustomBtn type="button" onClick={onClickSignup}>
+          회원가입
+        </SubmitCustomBtn>
       </BtnWrapper>
     </ContentWrapper>
   );
@@ -39,16 +36,28 @@ const LoginPage = () => {
 
 export default LoginPage;
 
-const LoginBtn = styled.button`
+const SubmitCustomBtn = styled.button`
+  background-color: #fcf6f5;
+  border-radius: 1rem;
+  border: 1px solid #8aaae5;
+  padding: 8px 17px 8px 17px;
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: 1px 2px 3px 0px #f2f2f2;
+  outline: none;
+  margin-bottom: 3rem;
+  &:hover {
+    background-color: #e1f1ff;
+  }
+`;
+
+const BtnWrapper = styled.section`
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  gap: 2rem;
 
-  padding: 0.8rem;
+  margin-top: 1rem;
+
   width: 100%;
-
-  font-size: 17px;
-  font-weight: bold;
-  background-color: ${({ $login, theme }) => ($login ? theme.colors.darkGreen : theme.colors.darkIvory)};
-  color: ${({ $login, theme }) => ($login ? theme.colors.ivory : theme.colors.brown)};
 `;

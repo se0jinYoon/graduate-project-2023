@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 import ContentWrapper from '../UI/ContentWrapper';
 import Input from '../common/Input';
-import BtnWrapper from '../common/BtnWrapper';
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -30,7 +29,7 @@ function Register() {
   }, [password, password2, username]);
 
   return (
-    <ContentWrapper header="회원가입" onSubmit={handleSubmit}>
+    <ContentWrapper header="👨‍👨‍👧‍👧 &nbsp;회원가입" onSubmit={handleSubmit}>
       <Input type="text" label="아이디" placeholder="아이디" onChange={(e) => setUsername(e.target.value)} required />
       <Input
         type="password"
@@ -50,7 +49,9 @@ function Register() {
       <p>{password2 !== password ? '비밀번호가 일치하지 않습니다' : ''}</p>
 
       <BtnWrapper>
-        <SignupBtn type="submit" disabled={!signupValid ? true : false} $valid={signupValid}>회원가입</SignupBtn>
+        <SubmitCustomBtn type="submit" disabled={!signupValid ? true : false} $valid={signupValid}>
+          회원가입
+        </SubmitCustomBtn>
       </BtnWrapper>
     </ContentWrapper>
   );
@@ -71,4 +72,32 @@ const SignupBtn = styled.button`
   cursor: ${({ $valid }) => ($valid ? 'pointer' : 'default')};
   background-color: ${({ $valid, theme }) => ($valid ? theme.colors.darkGreen : theme.colors.gray)};
   color: ${({ $valid, theme }) => ($valid ? theme.colors.ivory : theme.colors.white)};
+`;
+
+const SubmitCustomBtn = styled.button`
+  background-color: #fcf6f5;
+  width: 100%;
+  border-radius: 1rem;
+  border: 1px solid ${({ $valid }) => ($valid ? '#8aaae5' : '')};
+  padding: 8px 17px 8px 17px;
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: 1px 2px 3px 0px #f2f2f2;
+  outline: none;
+  margin-bottom: 3rem;
+  cursor: ${({ $valid }) => ($valid ? 'pointer' : 'default')};
+  &:hover {
+    background-color: ${({ $valid }) => ($valid ? '#e1f1ff' : '')};
+  }
+`;
+
+const BtnWrapper = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+
+  margin-top: 1rem;
+
+  width: 100%;
 `;
