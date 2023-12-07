@@ -97,6 +97,7 @@ const NavContainer = styled.div`
   align-items: center;
   padding: 1rem;
   height: 4rem;
+  background-color: #f7f7f9;
 `;
 
 const Nav = styled.ul`

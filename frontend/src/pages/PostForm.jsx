@@ -13,6 +13,7 @@ import ContentWrapper from '../UI/ContentWrapper';
 import BtnWrapper from '../common/BtnWrapper';
 import Input from '../common/Input';
 import PostInput from '../common/PostInput';
+import Loading from '../common/Loading';
 
 function PostForm() {
   const { user } = useContext(AuthContext);
@@ -34,6 +35,9 @@ function PostForm() {
   const [isShowOptions, setShowOptions] = useState(false);
   const [currentValue, setCurrentValue] = useState('');
   const ref = useRef();
+
+  // 로딩 관련 state
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   // 파일 선택 여부 렌더링
@@ -89,6 +93,7 @@ function PostForm() {
   // 백에 폼 전송 POST
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     let form_data = new FormData();
     form_data.append('user', JSON.stringify(user));
     form_data.append('image', formData.image, formData.image.name);
@@ -104,57 +109,69 @@ function PostForm() {
         },
       });
       updateCardData(response.data);
-      console.log(response.data);
       navigate('/updateForm');
     } catch (error) {
       console.log(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <ContentWrapper onSubmit={handleSubmit} header="명함 저장하기">
-      <Input
-        type="text"
-        label="제목"
-        id="title"
-        placeholder="제목을 입력하세요"
-        value={formData.title}
-        onChange={handleChange}
-        className="large"
-        required
-      />
-      <PostInput
-        type="text"
-        label="내용"
-        id="content"
-        placeholder="명함에 대한 메모를 해보아요!"
-        value={formData.content}
-        onChange={handleChange}
-        className="large"
-        required
-      />
+    <>
+      {loading && <Loading />}
+      {!loading && (
+        <ContentWrapper onSubmit={handleSubmit} header="명함 저장하기">
+          <Input
+            type="text"
+            label="제목"
+            id="title"
+            placeholder="제목을 입력하세요"
+            value={formData.title}
+            onChange={handleChange}
+            className="large"
+            required
+          />
+          <PostInput
+            type="text"
+            label="내용"
+            id="content"
+            placeholder="명함에 대한 메모를 해보아요!"
+            value={formData.content}
+            onChange={handleChange}
+            className="large"
+            required
+          />
 
-      <SubmitWrapper>
-        <SelectWrapper>
-          <SelectBox onClick={() => setShowOptions((prev) => !prev)} ref={ref} required>
-            <Label>{currentValue ? currentValue : '무엇과 관련되었나요?'}</Label>
-            <SelectOptions $show={isShowOptions}>
-              <Option onClick={handleOnChangeSelectValue}>취업</Option>
-              <Option onClick={handleOnChangeSelectValue}>지인</Option>
-              <Option onClick={handleOnChangeSelectValue}>여가</Option>
-              <Option onClick={handleOnChangeSelectValue}>기타</Option>
-            </SelectOptions>
-          </SelectBox>
-          <InputWrapper>
-            <CustomInput type="file" id="image" accept="image/png, image/jpeg" onChange={handleImageChange} required />
-            <UploadBtn htmlFor="image">📁 파일 선택</UploadBtn>
-            <FileSelected>{imageSelected}</FileSelected>
-          </InputWrapper>
-        </SelectWrapper>
+          <SubmitWrapper>
+            <SelectWrapper>
+              <SelectBox onClick={() => setShowOptions((prev) => !prev)} ref={ref} required>
+                <Label>{currentValue ? currentValue : '무엇과 관련되었나요?'}</Label>
+                <SelectOptions $show={isShowOptions}>
+                  <Option onClick={handleOnChangeSelectValue}>취업</Option>
+                  <Option onClick={handleOnChangeSelectValue}>지인</Option>
+                  <Option onClick={handleOnChangeSelectValue}>여가</Option>
+                  <Option onClick={handleOnChangeSelectValue}>기타</Option>
+                </SelectOptions>
+              </SelectBox>
+              <InputWrapper>
+                <CustomInput
+                  type="file"
+                  id="image"
+                  accept="image/png, image/jpeg"
+                  onChange={handleImageChange}
+                  required
+                />
+                <UploadBtn htmlFor="image">📁 파일 선택</UploadBtn>
+                <FileSelected>{imageSelected}</FileSelected>
+              </InputWrapper>
+            </SelectWrapper>
 
-        <SubmitCustomBtn type="submit" value="명함 저장하기" $formValid={formIsValid} />
-      </SubmitWrapper>
-    </ContentWrapper>
+            <SubmitCustomBtn type="submit" value="명함 저장하기" $formValid={formIsValid} />
+          </SubmitWrapper>
+        </ContentWrapper>
+      )}
+    </>
   );
 }
 

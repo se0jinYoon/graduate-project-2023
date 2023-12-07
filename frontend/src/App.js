@@ -16,6 +16,7 @@ import Navbar from './common/Navbar';
 import PostForm from './pages/PostForm';
 import ChangeUpdateForm from './pages/ChangeUpdateForm';
 import SavedCardData from './pages/SavedCardData';
+import Home from './pages/Home';
 
 const App = () => {
   return (
@@ -28,11 +29,12 @@ const App = () => {
               <UserCardDataProvider>
                 <Navbar />
                 <Routes>
+                  <Route path="/" element={<Home />} />
                   <Route path="/protected" element={<ProtectedPage />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
                   <Route
-                    path="/"
+                    path="/cardSaving"
                     element={
                       <PrivateRoute>
                         <PostForm />
@@ -75,5 +77,5 @@ const Div = styled.div`
   align-items: center;
   width: 100%;
   height: 100vh;
-  background-color: #f7f7f9;
+  background-color: white;
 `;

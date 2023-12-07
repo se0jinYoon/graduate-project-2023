@@ -59,20 +59,20 @@ function Register() {
 
 export default Register;
 
-const SignupBtn = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+// const SignupBtn = styled.button`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
 
-  padding: 0.8rem;
-  width: 100%;
+//   padding: 0.8rem;
+//   width: 100%;
 
-  font-size: 17px;
-  font-weight: bold;
-  cursor: ${({ $valid }) => ($valid ? 'pointer' : 'default')};
-  background-color: ${({ $valid, theme }) => ($valid ? theme.colors.darkGreen : theme.colors.gray)};
-  color: ${({ $valid, theme }) => ($valid ? theme.colors.ivory : theme.colors.white)};
-`;
+//   font-size: 17px;
+//   font-weight: bold;
+//   cursor: ${({ $valid }) => ($valid ? 'pointer' : 'default')};
+//   background-color: ${({ $valid, theme }) => ($valid ? theme.colors.darkGreen : theme.colors.gray)};
+//   color: ${({ $valid, theme }) => ($valid ? theme.colors.ivory : theme.colors.white)};
+// `;
 
 const SubmitCustomBtn = styled.button`
   background-color: #fcf6f5;
