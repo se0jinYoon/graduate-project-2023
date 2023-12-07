@@ -61,26 +61,39 @@ const Navbar = () => {
       <SideBarWrap id="sidebar" className={isOpen ? 'open' : ''}>
         <CloseImg src={CloseIconImg} alt="닫기" onClick={toggleClose} onKeyDown={toggleClose} />
         <Menu>
-          <List>
-            <Link to="/" onClick={toggleClose}>
-              📁 &nbsp;&nbsp;명함 저장하기
-            </Link>
-          </List>
-          <List>
-            <GetCardBtn type="button" onClick={getCardDataItem}>
-              📇 &nbsp;&nbsp;나의 명함들
-            </GetCardBtn>
-          </List>
-          <List>
-            <Link to="/login" onClick={toggleClose}>
-              👩🏻‍💻 &nbsp;&nbsp;로그인
-            </Link>
-          </List>
-          <List>
-            <Link to="/register" onClick={toggleClose}>
-              👨‍👨‍👧‍👧 &nbsp;&nbsp;회원가입
-            </Link>
-          </List>
+          {user !== null && (
+            <>
+              <List>
+                <Link to="/" onClick={toggleClose}>
+                  📁 &nbsp;&nbsp;명함 저장하기
+                </Link>
+              </List>
+              <List>
+                <GetCardBtn type="button" onClick={getCardDataItem}>
+                  📇 &nbsp;&nbsp;나의 명함들
+                </GetCardBtn>
+              </List>
+            </>
+          )}
+          {user == null && (
+            <>
+              <List>
+                <Link to="/cardSaving" onClick={toggleClose}>
+                  📁 &nbsp;&nbsp;명함 저장하기
+                </Link>
+              </List>
+              <List>
+                <Link to="/login" onClick={toggleClose}>
+                  👩🏻‍💻 &nbsp;&nbsp;로그인
+                </Link>
+              </List>
+              <List>
+                <Link to="/register" onClick={toggleClose}>
+                  👨‍👨‍👧‍👧 &nbsp;&nbsp;회원가입
+                </Link>
+              </List>
+            </>
+          )}
         </Menu>
       </SideBarWrap>
     </NavContainer>

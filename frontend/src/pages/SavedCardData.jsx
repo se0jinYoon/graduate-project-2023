@@ -113,6 +113,7 @@ export default SavedCardData;
 
 const SavedWrapper = styled.div`
   width: 100%;
+  background-color: #f7f7f9;
 `;
 
 const CardCategoryWrapper = styled.div`

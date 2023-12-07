@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { CardImg, EnvelopImg, BooksImg } from '../assets/img';
+import AuthContext from '../context/AuthContext';
 
 const Home = () => {
+  const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+
+  const onClickStart = (e) => {
+    e.preventDefault();
+    if (user !== null) {
+      navigate('/cardSaving');
+    } else {
+      navigate('/login');
+    }
+  };
+
   return (
     <HomeWrapper>
       <ContentWrapper>
@@ -27,7 +41,7 @@ const Home = () => {
         <Content>명함 이미지를 업로드하고 변환된 텍스트를 자유롭게 수정하며 필요에 맞게 명함을 사용해보아요!</Content>
       </ContentWrapper>
 
-      <StartBtn>시작하러 가기</StartBtn>
+      <StartBtn onClick={onClickStart}>시작하러 가기</StartBtn>
     </HomeWrapper>
   );
 };
