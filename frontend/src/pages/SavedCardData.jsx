@@ -62,7 +62,6 @@ const SavedCardData = () => {
       setSortData(filteredData);
     }
   };
-  console.log([...userCardData].reverse());
 
   return (
     <SavedWrapper>

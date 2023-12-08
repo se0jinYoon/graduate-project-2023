@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
 
 class Post(models.Model):
     # default는 admin일 수 있도록. admin 인덱스 확인 필

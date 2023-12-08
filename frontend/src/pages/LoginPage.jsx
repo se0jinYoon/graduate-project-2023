@@ -20,8 +20,11 @@ const LoginPage = () => {
   };
 
   return (
-    <ContentWrapper header="👩🏻‍💻 
-    로그인" onSubmit={handleSubmit}>
+    <ContentWrapper
+      header="👩🏻‍💻 
+    로그인"
+      onSubmit={handleSubmit}
+    >
       <Input type="text" label="아이디" placeholder="아이디를 입력하세요" />
       <Input type="password" label="비밀번호" placeholder="비밀번호를 입력하세요" />
 
